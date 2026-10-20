@@ -7,7 +7,7 @@
 <title>Кузня Героя — idle-кузница</title>
 <!--
   ══════════════════════════════════════════════════════════════
-  HERO'S FORGE (Кузня Героя) · v3.1 · VK Edition (VK Mini Games)
+  HERO'S FORGE (Кузня Героя) · v3.2 · VK Edition (VK Mini Games)
   ──────────────────────────────────────────────────────────────
   ПЕРЕНОС С ЯНДЕКС ИГР НА VK (v3.0):
     · Yandex SDK → VK Bridge (vk-bridge.min.js, локальный файл,
@@ -25,10 +25,17 @@
     · Исправлена rewarded-реклама: награда ТОЛЬКО за полный просмотр.
       Досрочное закрытие ролика → награды нет + честное сообщение
       (раньше награда выдавалась даже при закрытии — эксплойт)
-    · Добавлен бонусный баннер сбоку игры (десктоп ≥1080px):
-      «Бонус кузнеца» — ролик за золото (5% от текущего, 150–3000),
-      кулдаун 3 минуты. VK Bridge не даёт пассивных баннеров,
-      поэтому баннер использует rewarded-формат
+    · Добавлен бонусный баннер: «Бонус кузнеца» — ролик за золото
+      (5% от текущего, 150–3000), кулдаун 3 минуты.
+      VK Bridge не даёт пассивных баннеров, поэтому баннер
+      использует rewarded-формат
+  ИЗМЕНЕНИЯ v3.2:
+    · Баннер теперь виден на ВСЕХ экранах: на десктопе ≥1080px —
+      карточка сбоку игры, на узких экранах (телефон/вертикальное
+      окно) — горизонтальная полоса над панелью вкладок
+      («Реклама» → 📺 Бонус кузнеца → [Смотреть])
+    · Полоса не перекрывает контент: нижний отступ main увеличен,
+      высота таббара измеряется автоматически (--tabH)
   ══════════════════════════════════════════════════════════════
 -->
 <script src="vk-bridge.min.js"></script>
@@ -403,8 +410,10 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 .glow-4{filter:drop-shadow(0 0 7px rgba(255,92,77,.9))}
 
 @media(min-width:700px){#app{box-shadow:0 0 130px rgba(255,110,40,.09),0 0 90px rgba(0,0,0,.9)}}
-/* ─── Баннерная реклама сбоку (десктоп, rewarded-баннер) ─── */
-#adBanner{position:fixed;top:50%;transform:translateY(-50%);z-index:5;display:none;
+/* ─── Баннерная реклама (rewarded-баннер):
+       десктоп ≥1080px — карточка сбоку игры,
+       узкие экраны — полоса над панелью вкладок ─── */
+#adBanner{position:fixed;top:50%;transform:translateY(-50%);z-index:6;display:none;
   width:178px;padding:16px 12px 12px;text-align:center;border-radius:16px;
   background:linear-gradient(168deg,#41301b,#241708 72%);
   border:1px solid rgba(255,215,106,.22);
@@ -421,6 +430,22 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
   box-shadow:0 4px 0 #8a5a14,0 8px 16px rgba(0,0,0,.4);transition:transform .08s ease,box-shadow .08s ease}
 #abBtn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a14,0 4px 10px rgba(0,0,0,.4)}
 #abBtn:disabled{filter:saturate(.35) brightness(.75);box-shadow:0 3px 0 #4a3a1c;cursor:default;transform:none}
+/* узкие экраны: горизонтальная полоса над вкладками */
+@media(max-width:1079.9px){
+  #adBanner{display:flex;align-items:center;gap:10px;text-align:left;
+    top:auto;transform:none;left:8px;right:8px;width:auto;
+    bottom:calc(var(--tabH,66px) + env(safe-area-inset-bottom) + 8px);
+    padding:9px 12px;border-radius:14px}
+  main{padding-bottom:80px}
+  #adBanner .ab-label{top:-8px;left:12px;right:auto;font-size:8px;opacity:1;
+    background:#2c1b0e;padding:1px 7px;border-radius:8px;
+    border:1px solid rgba(255,215,106,.18)}
+  #adBanner .ab-ico{font-size:24px;margin:0;flex:none}
+  #adBanner .ab-mid{flex:1;min-width:0}
+  #adBanner b{margin-top:0;font-size:12px}
+  #adBanner .ab-desc{font-size:10.5px;margin-top:2px}
+  #abBtn{margin-top:0;width:auto;flex:none;align-self:center;padding:8px 14px;font-size:11.5px}
+}
 @media(min-width:1080px){#adBanner{display:block;right:max(14px,calc((100vw - 640px)/2 - 192px))}}
 </style>
 </head>
@@ -537,8 +562,10 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 <aside id="adBanner">
   <span class="ab-label" id="abLabel">Реклама</span>
   <div class="ab-ico">📺</div>
-  <b id="abTitle">Бонус кузнеца</b>
-  <span class="ab-desc" id="abDesc">Досмотри ролик — получи золото</span>
+  <div class="ab-mid">
+    <b id="abTitle">Бонус кузнеца</b>
+    <span class="ab-desc" id="abDesc">Досмотри ролик — получи золото</span>
+  </div>
   <button id="abBtn">Смотреть 📺</button>
 </aside>
 
@@ -2529,11 +2556,17 @@ if(away){
 }else if(!hadLocalSave){
   setTimeout(()=>toast(t('welcome'),'🔥'),400);
 }
-/* ═══ Баннерная реклама сбоку (rewarded-баннер, десктоп ≥1080px) ═══
-   VK Bridge не умеет пассивные баннеры (только reward/interstitial),
-   поэтому «баннер» — бонусное место: ролик → золото, кулдаун 3 мин. */
+/* ═══ Баннерная реклама (rewarded-баннер) ═══
+   Десктоп ≥1080px — карточка сбоку игры; узкие экраны —
+   полоса над вкладками. VK Bridge не умеет пассивные баннеры
+   (только reward/interstitial), поэтому «баннер» — бонусное
+   место: ролик → золото, кулдаун 3 мин. */
 let abCd=0;
 const abEl=document.getElementById('adBanner');
+/* высота панели вкладок → CSS-переменная (полоса баннера встаёт над ней) */
+const abTabbar=document.getElementById('tabbar');
+function abMeasure(){try{document.documentElement.style.setProperty('--tabH',abTabbar.offsetHeight+'px');}catch(e){}}
+abMeasure();addEventListener('resize',abMeasure);
 function abReward(){return Math.min(3000,Math.max(150,Math.round(S.gold*0.05)));}
 function abTick(){
   const b=document.getElementById('abBtn');
@@ -2549,7 +2582,8 @@ document.getElementById('abBtn').addEventListener('click',()=>{
     if(!ok)return;
     const r=abReward();
     gainGold(r);sCoin(false);ui();
-    try{floatNum('+'+fmt(r)+' '+t('abGold'),innerWidth-90,innerHeight*0.4,'f-gold');}catch(e){}
+    const fx=innerWidth>1079?[innerWidth-90,innerHeight*0.4]:[innerWidth*0.5,innerHeight*0.55];
+    try{floatNum('+'+fmt(r)+' '+t('abGold'),fx[0],fx[1],'f-gold');}catch(e){}
     toast(t('toastBanner'),'🪙');
     abCd=180;
   });
