@@ -7,21 +7,28 @@
 <title>Кузня Героя — idle-кузница</title>
 <!--
   ══════════════════════════════════════════════════════════════
-  HERO'S FORGE (Кузня Героя) · v3.0 · VK Edition (VK Mini Games)
+  HERO'S FORGE (Кузня Героя) · v3.1 · VK Edition (VK Mini Games)
   ──────────────────────────────────────────────────────────────
   ПЕРЕНОС С ЯНДЕКС ИГР НА VK (v3.0):
     · Yandex SDK → VK Bridge (vk-bridge.min.js, локальный файл,
       относительный путь — работает в любом подкаталоге GitHub Pages)
     · VKWebAppInit стартует в <head>; вне VK (GitHub Pages напрямую)
       — мгновенный standalone-режим: игра работает без рекламы и облака
-    · Реклама: VKWebAppShowNativeAds (reward / interstitial);
-      если реклама недоступна — награда выдаётся бесплатно
+    · Реклама: VKWebAppShowNativeAds (reward / interstitial)
     · Облачные сохранения: VKWebAppStorage (внутри VK),
       localStorage — основное хранилище и резервная копия
     · Яндекс-лидерборды удалены (VK-лидерборды требуют сервер).
       Локальные рекорды в профиле: «золото за лучший забег» + «рекорд комбо»
     · Язык: ?lang= → vk_language (launch-параметр VK) → язык браузера → RU
     · Имя игрока: VKWebAppGetUserInfo (приветствие в профиле)
+  ИЗМЕНЕНИЯ v3.1:
+    · Исправлена rewarded-реклама: награда ТОЛЬКО за полный просмотр.
+      Досрочное закрытие ролика → награды нет + честное сообщение
+      (раньше награда выдавалась даже при закрытии — эксплойт)
+    · Добавлен бонусный баннер сбоку игры (десктоп ≥1080px):
+      «Бонус кузнеца» — ролик за золото (5% от текущего, 150–3000),
+      кулдаун 3 минуты. VK Bridge не даёт пассивных баннеров,
+      поэтому баннер использует rewarded-формат
   ══════════════════════════════════════════════════════════════
 -->
 <script src="vk-bridge.min.js"></script>
@@ -396,6 +403,25 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 .glow-4{filter:drop-shadow(0 0 7px rgba(255,92,77,.9))}
 
 @media(min-width:700px){#app{box-shadow:0 0 130px rgba(255,110,40,.09),0 0 90px rgba(0,0,0,.9)}}
+/* ─── Баннерная реклама сбоку (десктоп, rewarded-баннер) ─── */
+#adBanner{position:fixed;top:50%;transform:translateY(-50%);z-index:5;display:none;
+  width:178px;padding:16px 12px 12px;text-align:center;border-radius:16px;
+  background:linear-gradient(168deg,#41301b,#241708 72%);
+  border:1px solid rgba(255,215,106,.22);
+  box-shadow:0 14px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,215,106,.12);
+  animation:abPulse 3.4s ease-in-out infinite}
+@keyframes abPulse{0%,100%{box-shadow:0 14px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,215,106,.12)}
+  50%{box-shadow:0 14px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,215,106,.12),0 0 28px rgba(255,140,60,.16)}}
+#adBanner .ab-label{position:absolute;top:8px;right:10px;font-size:9px;letter-spacing:1.6px;color:#a88d5f;text-transform:uppercase;opacity:.8}
+#adBanner .ab-ico{font-size:34px;filter:drop-shadow(0 4px 10px rgba(255,140,60,.35))}
+#adBanner b{display:block;font-family:var(--fd);font-size:13px;color:var(--gold);margin-top:8px;letter-spacing:.4px}
+#adBanner .ab-desc{display:block;font-size:11px;color:#c7ab7d;margin-top:3px;line-height:1.35}
+#abBtn{margin-top:11px;width:100%;padding:9px 6px;border-radius:12px;border:1px solid rgba(255,215,106,.45);
+  background:linear-gradient(180deg,#ffc94d,#e89a26);color:#3a2a16;font-family:var(--fd);font-size:12px;letter-spacing:.4px;
+  box-shadow:0 4px 0 #8a5a14,0 8px 16px rgba(0,0,0,.4);transition:transform .08s ease,box-shadow .08s ease}
+#abBtn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a14,0 4px 10px rgba(0,0,0,.4)}
+#abBtn:disabled{filter:saturate(.35) brightness(.75);box-shadow:0 3px 0 #4a3a1c;cursor:default;transform:none}
+@media(min-width:1080px){#adBanner{display:block;right:max(14px,calc((100vw - 640px)/2 - 192px))}}
 </style>
 </head>
 <body>
@@ -508,6 +534,14 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 <div id="toasts"></div>
 <div id="modal"><div class="modal-card" id="modalCard"></div></div>
 
+<aside id="adBanner">
+  <span class="ab-label" id="abLabel">Реклама</span>
+  <div class="ab-ico">📺</div>
+  <b id="abTitle">Бонус кузнеца</b>
+  <span class="ab-desc" id="abDesc">Досмотри ролик — получи золото</span>
+  <button id="abBtn">Смотреть 📺</button>
+</aside>
+
 <script>
 'use strict';
 /* ═══════════════════ ЛОКАЛИЗАЦИЯ (п.2.14 / п.8.2.3) ═══════════════════ */
@@ -596,6 +630,7 @@ const STR={
     toastNeedLegend:'Нужно 100К золота за этот забег',
     toastStartCraft:'Сначала начни ковку (нужна руда)',
     toastAdFail:'Реклама недоступна',toastAdSkip:'Реклама недоступна — награда всё равно твоя! 🎁',
+    toastAdClosed:'Ролик не досмотрен — награды нет 🚫',toastBanner:'Бонус зачислен!',abLabel:'Реклама',abTitle:'Бонус кузнеца',abDesc:'Досмотри ролик — получи золото',abWatch:'Смотреть 📺',abGold:'золота',
     toastMine:'Ты добыл руду вручную! ⛏️',
     toastVeinEmpty:'жила пуста… подожди ⛏️',
     toastCatLater:'позже… 😾',
@@ -718,6 +753,7 @@ const STR={
     toastNeedLegend:'Need 100K gold this run',
     toastStartCraft:'Start forging first (need ore)',
     toastAdFail:'Ad unavailable',toastAdSkip:'Ad unavailable — reward granted anyway! 🎁',
+    toastAdClosed:'Video skipped — no reward 🚫',toastBanner:'Bonus added!',abLabel:'Ad',abTitle:'Blacksmith Bonus',abDesc:'Watch the video — earn gold',abWatch:'Watch 📺',abGold:'gold',
     toastMine:'You mined ore by hand! ⛏️',
     toastVeinEmpty:'vein is empty… wait ⛏️',
     toastCatLater:'later… 😾',
@@ -933,13 +969,13 @@ function resumeAudio(){try{if(AC&&AC.state==='suspended')AC.resume();if(master)m
 function showRewarded(onDone){
   if(!bridge){onDone(true);return;}
   let done=false;
-  const finish=v=>{if(!done){done=true;resumeAudio();onDone(v);}};
+  const finish=v=>{if(!done){done=true;resumeAudio();if(!v)toast(t('toastAdClosed'),'📺');onDone(v);}};
   pauseAudio();
   try{
     bridge.send('VKWebAppShowNativeAds',{ad_format:'reward'})
       .then(r=>{finish(!!(r&&r.result));})
-      .catch(()=>{toast(t('toastAdSkip'));finish(true);});
-  }catch(e){toast(t('toastAdSkip'));finish(true);}
+      .catch(()=>{finish(false);});
+  }catch(e){finish(false);}
 }
 function maybeInterstitial(force){
   if(!bridge)return;
@@ -2068,7 +2104,6 @@ function buildExp(){
     if(!S.exp)return;
     showRewarded(ok=>{
       if(ok){S.exp.end=Date.now();expCheck();toast(t('toastRaidInstant'),'⚔️');}
-      else toastThrottle(t('toastAdFail'));
     });
   });
   expRefs={desc:el.querySelector('.sh-desc'),timer:el.querySelector('.exp-timer'),go,instant:inst};
@@ -2125,7 +2160,6 @@ function buildShop(){
   fr.querySelector('.btn').addEventListener('click',e=>{
     showRewarded(ok=>{
       if(ok){S.shards+=3;sCoin(true);toast(t('toastShards'),'💠');flyCoins(e.currentTarget,4);ui();}
-      else toastThrottle(t('toastAdFail'));
     });
   });
   shopList.appendChild(fr);
@@ -2489,12 +2523,38 @@ if(away){
         flyCoins(btn,8);sCoin(true);
         toast(t('toastDouble'),'🎉');
         btn.remove();ui();
-      }else toastThrottle(t('toastAdFail'));
+      }
     });
   });
 }else if(!hadLocalSave){
   setTimeout(()=>toast(t('welcome'),'🔥'),400);
 }
+/* ═══ Баннерная реклама сбоку (rewarded-баннер, десктоп ≥1080px) ═══
+   VK Bridge не умеет пассивные баннеры (только reward/interstitial),
+   поэтому «баннер» — бонусное место: ролик → золото, кулдаун 3 мин. */
+let abCd=0;
+const abEl=document.getElementById('adBanner');
+function abReward(){return Math.min(3000,Math.max(150,Math.round(S.gold*0.05)));}
+function abTick(){
+  const b=document.getElementById('abBtn');
+  if(abCd>0){b.disabled=true;b.textContent='⏳ '+durFmt(abCd);return;}
+  b.disabled=false;b.textContent=t('abWatch');
+  document.getElementById('abDesc').textContent='+'+fmt(abReward())+' '+t('abGold');
+}
+document.getElementById('abLabel').textContent=t('abLabel');
+document.getElementById('abTitle').textContent=t('abTitle');
+document.getElementById('abBtn').addEventListener('click',()=>{
+  if(abCd>0)return;
+  showRewarded(ok=>{
+    if(!ok)return;
+    const r=abReward();
+    gainGold(r);sCoin(false);ui();
+    try{floatNum('+'+fmt(r)+' '+t('abGold'),innerWidth-90,innerHeight*0.4,'f-gold');}catch(e){}
+    toast(t('toastBanner'),'🪙');
+    abCd=180;
+  });
+});
+setInterval(abTick,1000);abTick();
 setInterval(save,10000);
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){save();cloudSave(true);}
