@@ -7,7 +7,7 @@
 <title>Кузня Героя — idle-кузница</title>
 <!--
   ══════════════════════════════════════════════════════════════
-  HERO'S FORGE (Кузня Героя) · v3.3 · VK Edition (VK Mini Games)
+  HERO'S FORGE (Кузня Героя) · v3.4 · VK Edition (VK Mini Games)
   ──────────────────────────────────────────────────────────────
   ПЕРЕНОС С ЯНДЕКС ИГР НА VK (v3.0):
     · Yandex SDK → VK Bridge (vk-bridge.min.js, локальный файл,
@@ -29,7 +29,21 @@
       (5% от текущего, 150–3000), кулдаун 3 минуты.
       VK Bridge не даёт пассивных баннеров, поэтому баннер
       использует rewarded-формат
-  ИЗМЕНЕНИЯ v3.3:
+  ИЗМЕНЕНИЯ v3.4 (аудит соответствия Правилам VK Mini Apps):
+    · VKWebAppViewHide/ViewRestore обрабатываются: при закрытии
+      приложения на мобильных звук останавливается (п. 2.2.5)
+    · Interstitial-реклама удалена (п. 5.1.5.1а — её можно
+      показывать только во время явной загрузки, у idle-игры
+      таких переходов нет). Монетизация: rewarded + баннер VK
+    · При первом запуске — окно принятия пользовательского
+      соглашения и политики конфиденциальности (п. 1.1.4),
+      возрастная категория 0+ (п. 2.1.5)
+    · «Сброс» в профиле удаляет прогресс и с устройства,
+      И из облака VK (п. 1.1.10 — удаление данных по требованию)
+    · resumeAudio учитывает выключенный звук; заголовок кнопки
+      звука локализован
+    · SUPPORT_URL — необязательная кнопка поддержки в профиле
+      (п. 2.4.1), открывается через vk.ru/away.php (п. 2.5.4)
     · Удалена самодельная карточка «Бонус кузнеца».
       Вместо неё — настоящая баннерная реклама:
     · Внутри VK: родной рекламный баннер VK
@@ -580,7 +594,7 @@ const STR={
     stMined:'руды добыто вручную',stEpic:'шедевров',stStars:'звёзд легенды',stCombo:'рекорд комбо',
     stBestRun:'золото за лучший забег',stTime:'время в кузне',
     save:'💾 Сохранить',reset:'🗑 Сброс',
-    profileNote:'Прогресс сохраняется автоматически · в VK — ещё и облачно.<br>Реклама опциональна и не обязательна для прохождения.',
+    profileNote:'Прогресс сохраняется автоматически · в VK — ещё и облачно.<br>Реклама опциональна и не обязательна для прохождения.<br>Кнопка «Сброс» удаляет прогресс и все ваши данные.',
     rateOre:'⛏️ {v}/с',rateRaid:'⚔️ отряд в рейде',
     needOre:'⛏️ {v}',prog:'{i} {n}: {c}/{w} ⚒️',progNeed:'{i} {n} · нужно ⛏️ {v}',
     info:'⛏️ рудник {v}/удар ✦ 🔨 +{p} ✦ ⚙️ {a}/с ✦ 🍀 {l}%',
@@ -619,7 +633,8 @@ const STR={
     awayGift:'<br>💠 Подарок за возвращение: <b>+1 осколок</b>!',
     awayTip:'<br><span class="small dim">Совет: купи Авто-Молот — кузня будет работать сама!</span>',
     awayCollect:'Забрать! 🪙',awayDouble:'📺 ×2 (реклама)',
-    resetTitle:'🗑 Сбросить прогресс?',resetP:'Весь прогресс (включая звёзды ⭐) будет удалён навсегда.',resetYes:'Да, сбросить',
+    resetTitle:'🗑 Сбросить прогресс?',resetP:'Прогресс будет удалён с устройства И из облачного хранилища VK — все данные игры о вас. Действие необратимо.',resetYes:'Да, удалить всё',
+    eulaTitle:'Добро пожаловать в кузницу!',eulaP:'Продолжая игру, вы принимаете пользовательское соглашение и политику конфиденциальности приложения (доступны на странице приложения в каталоге VK). Игра хранит игровой прогресс на устройстве и, внутри VK, в облаке VK; имя профиля используется только для приветствия. Возрастная категория: 0+. Прогресс и данные можно удалить в любой момент кнопкой «Сброс» в профиле.',eulaBtn:'Принимаю — куй!',supportBtn:'🛠 Поддержка',soundT:'Звук',
     welcome:'Добро пожаловать в кузню! Тапай по наковальне ⚒️',
     toastSaved:'Сохранено 💾',toastProgress:'Прогресс сохранён 💾',
     toastNoOre:'Не хватает руды! Тапай по руднику ⛏️',
@@ -702,7 +717,7 @@ const STR={
     stMined:'ore mined by hand',stEpic:'masterpieces',stStars:'legend stars',stCombo:'combo record',
     stBestRun:'best run gold',stTime:'time at the forge',
     save:'💾 Save',reset:'🗑 Reset',
-    profileNote:'Progress saves automatically · in VK it also syncs to the cloud.<br>Ads are optional and not required to play.',
+    profileNote:'Progress saves automatically · in VK it also syncs to the cloud.<br>Ads are optional and not required to play.<br>“Reset” in the profile deletes progress and all your data.',
     rateOre:'⛏️ {v}/s',rateRaid:'⚔️ party on raid',
     needOre:'⛏️ {v}',prog:'{i} {n}: {c}/{w} ⚒️',progNeed:'{i} {n} · needs ⛏️ {v}',
     info:'⛏️ mine {v}/tap ✦ 🔨 +{p} ✦ ⚙️ {a}/s ✦ 🍀 {l}%',
@@ -741,7 +756,8 @@ const STR={
     awayGift:'<br>💠 Welcome-back gift: <b>+1 shard</b>!',
     awayTip:'<br><span class="small dim">Tip: buy the Auto-Hammer — the forge works by itself!</span>',
     awayCollect:'Collect! 🪙',awayDouble:'📺 ×2 (ad)',
-    resetTitle:'🗑 Reset progress?',resetP:'All progress (including stars ⭐) will be deleted forever.',resetYes:'Yes, reset',
+    resetTitle:'🗑 Reset progress?',resetP:'Your progress will be deleted from the device AND from VK cloud storage — all game data about you. This cannot be undone.',resetYes:'Delete everything',
+    eulaTitle:'Welcome to the forge!',eulaP:'By continuing you accept the app’s user agreement and privacy policy (available on the app page in the VK catalog). The game stores progress on the device and, inside VK, in VK cloud; your profile name is used for the greeting only. Age rating: 0+. Progress and data can be deleted anytime via the “Reset” button in the profile.',eulaBtn:'Accept — let’s forge!',supportBtn:'🛠 Support',soundT:'Sound',
     welcome:'Welcome to the forge! Tap the anvil ⚒️',
     toastSaved:'Saved 💾',toastProgress:'Progress saved 💾',
     toastNoOre:'Not enough ore! Tap the mine ⛏️',
@@ -945,8 +961,7 @@ function load(){try{
 
 /* ═══════════════════ VK BRIDGE ═══════════════════ */
 let bridge=null,playerName='';
-let lastInter=0,lastCloud=0;
-let sessionStart=Date.now();
+let lastCloud=0;
 let hadLocalSave=false;
 let cloudLoaded=false;
 function initSDK(){
@@ -961,6 +976,16 @@ function initSDK(){
       }).catch(()=>{});
     }catch(e){}
     try{b.send('VKWebAppSetViewSettings',{status_bar_style:'light',action_bar_color:'#0C0705',navigation_bar_color:'#0C0705'}).catch(()=>{});}catch(e){}
+    /* Правила VK 2.2.5: при закрытии приложения (мобильные) —
+       VKWebAppViewHide: сохраняемся и останавливаем звук;
+       при возврате — VKWebAppViewRestore: возобновляем */
+    try{
+      b.subscribe(e=>{
+        const tp=e&&e.detail&&e.detail.type;
+        if(tp==='VKWebAppViewHide'){save();cloudSave(true);pauseAudio();}
+        else if(tp==='VKWebAppViewRestore'){resumeAudio();showVkBanner();}
+      });
+    }catch(e){}
     if(!cloudLoaded){cloudLoaded=true;cloudPull();}
     showVkBanner();
     return b;
@@ -977,7 +1002,7 @@ function showVkBanner(){
   try{bridge.send('VKWebAppShowBannerAd',{banner_location:'bottom'}).catch(()=>{});}catch(e){}
 }
 function pauseAudio(){try{if(master)master.gain.value=0;if(AC&&AC.state==='running')AC.suspend();}catch(e){}}
-function resumeAudio(){try{if(AC&&AC.state==='suspended')AC.resume();if(master)master.gain.value=0.5;}catch(e){}}
+function resumeAudio(){try{if(AC&&AC.state==='suspended')AC.resume();if(master)master.gain.value=S.muted?0:0.5;}catch(e){}}
 function showRewarded(onDone){
   if(!bridge){onDone(true);return;}
   let done=false;
@@ -988,17 +1013,6 @@ function showRewarded(onDone){
       .then(r=>{finish(!!(r&&r.result));})
       .catch(()=>{finish(false);});
   }catch(e){finish(false);}
-}
-function maybeInterstitial(force){
-  if(!bridge)return;
-  const n=Date.now();
-  if(!force&&n-lastInter<240000)return;
-  lastInter=n;
-  pauseAudio();
-  try{
-    bridge.send('VKWebAppShowNativeAds',{ad_format:'interstitial'})
-      .then(()=>{resumeAudio();showVkBanner();}).catch(()=>{resumeAudio();showVkBanner();});
-  }catch(e){resumeAudio();}
 }
 /* Локальные рекорды вместо VK-лидербордов (VK требует сервер —
    секретный ключ нельзя хранить на статике GitHub Pages).
@@ -1158,7 +1172,8 @@ function toastThrottle(msg,icon){const n=performance.now();
 
 const modal=$('modal');
 function showModal(html){$('modalCard').innerHTML=html;modal.classList.add('on');}
-modal.addEventListener('click',e=>{if(e.target===modal||e.target.closest('[data-close]'))modal.classList.remove('on');});
+let eulaLock=false;
+modal.addEventListener('click',e=>{if(eulaLock&&e.target===modal)return;if(e.target===modal||e.target.closest('[data-close]'))modal.classList.remove('on');});
 
 /* ═══════════════════ CANVAS ═══════════════════ */
 const cv=$('forge'),cx=cv.getContext('2d');
@@ -1957,7 +1972,6 @@ function doPrestige(){
   save();
   toast(t('toastLegend',{g:g,t:S.stars}),'⭐');
   sFanfare();confetti();
-  maybeInterstitial(true);
   ui();
 }
 
@@ -2435,7 +2449,7 @@ document.addEventListener('selectstart',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
 
 const muteBtn=$('muteBtn'),saveBtn=$('saveBtn');
-function updateMuteIcon(){muteBtn.textContent=S.muted?'🔇':'';}
+function updateMuteIcon(){muteBtn.textContent=S.muted?'🔇':'🔊';muteBtn.title=t('soundT');}
 muteBtn.addEventListener('click',()=>{S.muted=!S.muted;updateMuteIcon();if(!S.muted)sCoin(false);save();});
 saveBtn.addEventListener('click',()=>{save();toast(t('toastSaved'));
   saveBtn.classList.remove('pulse');void saveBtn.offsetWidth;saveBtn.classList.add('pulse');});
@@ -2469,7 +2483,19 @@ $('resetBtn').addEventListener('click',()=>{
   showModal(`<h3>${t('resetTitle')}</h3><p>${t('resetP')}</p>
     <div class="modal-btns"><button class="btn" data-close>${t('cancel')}</button>
     <button class="btn danger" id="confirmReset">${t('resetYes')}</button></div>`);
-  $('confirmReset').addEventListener('click',()=>{try{localStorage.removeItem(KEY);}catch(e){}location.reload();});
+  $('confirmReset').addEventListener('click',()=>{
+    /* Правила VK 1.1.10: удаление данных по требованию —
+       чистим и устройство, и облако VK. Перезагружаемся только
+       ПОСЛЕ подтверждения отправки очистки облака (без гонки) */
+    try{localStorage.removeItem(KEY);}catch(e){}
+    let rd=false;const done=()=>{if(rd)return;rd=true;location.reload();};
+    try{
+      if(bridge){
+        bridge.send('VKWebAppStorageSet',{key:VK_SAVE_KEY,value:''}).then(done,done);
+        setTimeout(done,1200);
+      }else done();
+    }catch(e){done();}
+  });
 });
 
 function initEmbers(){
@@ -2541,6 +2567,23 @@ if(away){
 }else if(!hadLocalSave){
   setTimeout(()=>toast(t('welcome'),'🔥'),400);
 }
+/* ═══ Правила VK: 1.1.4 — пользовательское соглашение и политика
+   конфиденциальности принимаются до начала игры;
+   2.4.1 — доступный канал поддержки (задайте SUPPORT_URL) ═══ */
+const SUPPORT_URL='';  /* ← ссылка на сообщество/поддержку; пусто — кнопка скрыта */
+if(!S.flags.eula){
+  eulaLock=true;
+  showModal(`<h3>${t('eulaTitle')}</h3><p class="dim small" style="text-align:left;line-height:1.5">${t('eulaP')}</p>
+    <div class="modal-btns"><button class="btn gold" id="eulaOk">${t('eulaBtn')}</button></div>`);
+  $('eulaOk').addEventListener('click',()=>{S.flags.eula=true;eulaLock=false;save();modal.classList.remove('on');});
+}
+if(SUPPORT_URL){
+  try{
+    const sb=document.createElement('button');sb.className='btn';sb.textContent=t('supportBtn');
+    sb.addEventListener('click',()=>{try{window.open('https://vk.ru/away.php?to='+encodeURIComponent(SUPPORT_URL),'_blank');}catch(e){}});
+    const svc=document.querySelector('#tab-docs .svc');if(svc)svc.appendChild(sb);
+  }catch(e){}
+}
 /* ═══════════ РЕКЛАМА ВНЕ VK (GitHub Pages и другие сайты) ═══════════
    Настоящая баннерная реклама через Google AdSense:
    1) Зарегистрируйтесь в Google AdSense и создайте рекламный блок;
@@ -2578,11 +2621,7 @@ const AD_CONFIG=(window.__AD_CONFIG||{
 setInterval(save,10000);
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){save();cloudSave(true);}
-  else{
-    showVkBanner();
-    const gone=Date.now()-S.last;
-    if(gone>90000&&(Date.now()-sessionStart)>60000)maybeInterstitial();
-  }
+  else{showVkBanner();}
 });
 window.addEventListener('beforeunload',save);
 lastLogic=performance.now();
