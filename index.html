@@ -4,59 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#120b06">
-<title>Кузня Героя — idle-кузница</title>
+<title>Кузня Героя — мастерская кузнеца</title>
 <!--
   ══════════════════════════════════════════════════════════════
-  HERO'S FORGE (Кузня Героя) · v3.4 · VK Edition (VK Mini Games)
+  HERO'S FORGE (Кузня Героя) · v5.0 · VK Edition (VK Mini Games)
   ──────────────────────────────────────────────────────────────
-  ПЕРЕНОС С ЯНДЕКС ИГР НА VK (v3.0):
-    · Yandex SDK → VK Bridge (vk-bridge.min.js, локальный файл,
-      относительный путь — работает в любом подкаталоге GitHub Pages)
-    · VKWebAppInit стартует в <head>; вне VK (GitHub Pages напрямую)
-      — мгновенный standalone-режим: игра работает без рекламы и облака
-    · Реклама: VKWebAppShowNativeAds (reward / interstitial)
-    · Облачные сохранения: VKWebAppStorage (внутри VK),
-      localStorage — основное хранилище и резервная копия
-    · Яндекс-лидерборды удалены (VK-лидерборды требуют сервер).
-      Локальные рекорды в профиле: «золото за лучший забег» + «рекорд комбо»
-    · Язык: ?lang= → vk_language (launch-параметр VK) → язык браузера → RU
-    · Имя игрока: VKWebAppGetUserInfo (приветствие в профиле)
-  ИЗМЕНЕНИЯ v3.1:
-    · Исправлена rewarded-реклама: награда ТОЛЬКО за полный просмотр.
-      Досрочное закрытие ролика → награды нет + честное сообщение
-      (раньше награда выдавалась даже при закрытии — эксплойт)
-    · Добавлен бонусный баннер: «Бонус кузнеца» — ролик за золото
-      (5% от текущего, 150–3000), кулдаун 3 минуты.
-      VK Bridge не даёт пассивных баннеров, поэтому баннер
-      использует rewarded-формат
-  ИЗМЕНЕНИЯ v3.4 (аудит соответствия Правилам VK Mini Apps):
-    · VKWebAppViewHide/ViewRestore обрабатываются: при закрытии
-      приложения на мобильных звук останавливается (п. 2.2.5)
-    · Interstitial-реклама удалена (п. 5.1.5.1а — её можно
-      показывать только во время явной загрузки, у idle-игры
-      таких переходов нет). Монетизация: rewarded + баннер VK
-    · При первом запуске — окно принятия пользовательского
-      соглашения и политики конфиденциальности (п. 1.1.4),
-      возрастная категория 0+ (п. 2.1.5)
-    · «Сброс» в профиле удаляет прогресс и с устройства,
-      И из облака VK (п. 1.1.10 — удаление данных по требованию)
-    · resumeAudio учитывает выключенный звук; заголовок кнопки
-      звука локализован
-    · SUPPORT_URL — необязательная кнопка поддержки в профиле
-      (п. 2.4.1), открывается через vk.ru/away.php (п. 2.5.4)
-    · Удалена самодельная карточка «Бонус кузнеца».
-      Вместо неё — настоящая баннерная реклама:
-    · Внутри VK: родной рекламный баннер VK
-      (VKWebAppShowBannerAd, низ экрана) — показывается
-      автоматически в мобильном приложении VK (Android/iOS);
-      на web-версии VK платформа баннеры не поддерживает.
-      После полноэкранной рекламы баннер восстанавливается
-    · Вне VK (GitHub Pages и др.): готовый слот Google AdSense —
-      впишите adsenseClient/adsenseSlot в AD_CONFIG (начало
-      рекламного блока в конце скрипта): десктоп — блок
-      справа от игры, телефон — полоса внизу. Пока AD_CONFIG
-      пуст, рекламного блока нет (сторонние сети внутри VK
-      запрещены правилами платформы)
+  ИЗМЕНЕНИЯ v5.0 («отойти от кликеров к продуманным кор-механикам»):
+    Игра переработана из кликера в НАСТОЯЩУЮ МАСТЕРСКУЮ с двумя
+    активными профессиями и производственной цепочкой:
+    · ПЛАВКА (горн): руда → слитки. Управляй температурой горна:
+      у каждого металла своя зона плавки, жар падает, перегрев
+      портит тигель. Чистота плавки (скилл игрока) задаёт стартовое
+      качество будущей ковки
+    · КОВКА (наковальня) в 3 ЭТАПА: обжимка → протяжка → заточка.
+      Зона удара смещается на каждом этапе и уже у дорогих металлов.
+      Каждое действие меняет ШКАЛУ КАЧЕСТВА: точный удар +, удар
+      мимо −. Итоговый сорт: брак 💔 / обычное ⚔ / закалённое 🔷 /
+      шедевр ⭐. Брак — только в переплавку (часть руды назад)
+    · СЛИТКИ — промежуточный ресурс: плавь заранее, куй когда
+      удобно; плавка и ковка идут ПАРАЛЛЕЛЬНО (ритм двух рук)
+    · ПОДМАСТЕРЬЕ вместо Авто-Молота: наёмный работник сам плавит
+      и куёт обычные мечи, но шедевры — только ручная работа
+    · РЫНОК: цены мечей плавают ±25% — продавай на подъёме,
+      придерживай на спаде. Оселок теперь добавляет качество ковке
+    · Новые апгрейды меняют МИНИ-ИГРЫ, а не только цифры:
+      Мехи (жар/остывание), Тигель (скорость плавки),
+      Мастерство (цена точного удара), Подмастерье
+    · Сохранения v6: миграция v3/v4/v5 без потери прогресса
+  ИСТОРИЯ (сокращённо):
+    v4.0 — заказы гильдии с дедлайнами, репутация кузни, качество
+      из точности ударов, сохранения v5
+    v3.4 — соответствие Правилам VK (EULA, сброс данных, баннер)
+    v3.3 — VK-баннер + AdSense-слот вне VK; v3.1 — честная
+      rewarded-реклама (награда только за полный просмотр)
+    v3.0 — перенос с Яндекс Игр на VK Bridge (cloud-сохранения,
+      VKWebAppInit, язык из vk_language, баннер внизу)
   ══════════════════════════════════════════════════════════════
 -->
 <script src="vk-bridge.min.js"></script>
@@ -431,6 +413,42 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 .glow-4{filter:drop-shadow(0 0 7px rgba(255,92,77,.9))}
 
 @media(min-width:700px){#app{box-shadow:0 0 130px rgba(255,110,40,.09),0 0 90px rgba(0,0,0,.9)}}
+/* ─── Заказы гильдии (v4.0) ─── */
+.badge.rep-c{border-radius:13px 8px 9px 12px/8px 13px 9px 12px}
+.badge.rep-c b{color:#d7c1ff;text-shadow:0 0 9px rgba(170,120,255,.4)}
+.order{position:relative;display:flex;align-items:center;gap:10px;margin-top:9px;padding:10px 15px 12px;
+  background:var(--noise),radial-gradient(120% 100% at 18% 0%,rgba(120,80,30,.14),transparent 60%),
+    radial-gradient(100% 130% at 92% 100%,rgba(115,70,25,.18),transparent 55%),linear-gradient(165deg,var(--parchHi),#e2c98f 55%,var(--parchLo));
+  color:var(--ink);clip-path:var(--tear);transform:rotate(-.4deg);
+  filter:drop-shadow(0 5px 9px rgba(0,0,0,.55));animation:evtIn .35s ease;overflow:hidden}
+.order:nth-child(2n){transform:rotate(.4deg)}
+.order.royal{filter:drop-shadow(0 0 11px rgba(255,190,80,.55)) drop-shadow(0 5px 9px rgba(0,0,0,.55))}
+.order.urgent{filter:drop-shadow(0 0 10px rgba(255,90,50,.55)) drop-shadow(0 5px 9px rgba(0,0,0,.55))}
+.order .evt-emoji{font-size:25px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.order .evt-info{flex:1;min-width:0}
+.order .evt-info b{font-family:var(--fd);font-size:11.5px;letter-spacing:.4px;color:#6a2410;display:block}
+.order .o-req{display:block;font-family:var(--fh);font-size:13px;color:#4a3418;margin-top:1px}
+.order .o-reward{display:block;font-family:var(--fd);font-size:10.5px;color:#8a5a08;margin-top:2px}
+.order .o-btns{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.order .o-timer{position:absolute;left:0;bottom:0;height:4px;width:100%;background:linear-gradient(90deg,#2e7d32,#66bb6a);transition:width .3s linear}
+.order.urgent .o-timer{background:linear-gradient(90deg,#c9402e,#ff9a2e)}
+.order.empty{filter:grayscale(.7) brightness(.82) drop-shadow(0 4px 7px rgba(0,0,0,.45))}
+.order.empty .o-cd{font-family:var(--fd);font-size:11px;color:#6a4a20}
+
+/* ─── v5.0: плавка + ковка (качество, этапы, слитки) ─── */
+.badge.ingot-c b{color:#ffb35c;text-shadow:0 0 9px rgba(255,150,60,.4)}
+.prog-wrap.qual{height:22px;margin-top:7px}
+#qualFill{height:100%;width:0%;transition:width .15s;position:relative;
+  background:linear-gradient(90deg,#8a2a1c,#c9402e 30%,#e2a53e 56%,#4fc3d9 78%,#ffd76a);box-shadow:0 0 13px rgba(255,170,60,.5)}
+#qualLabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:10.5px;letter-spacing:.5px;color:#fff;text-shadow:0 1px 3px #000}
+#stageStrip{font-family:var(--fd);font-size:11.5px;letter-spacing:.8px;color:#c89b6a;text-align:center;margin-top:7px;text-shadow:0 0 8px rgba(200,130,50,.25)}
+#stageStrip b{color:#ffd76a}
+#actionRow{display:flex;gap:8px;margin-top:9px}
+#actionRow .btn{flex:1;justify-content:center;display:flex;align-items:center;gap:6px}
+.mk{font-size:10px;margin-left:4px}
+.mk.up{color:#9fe8b0}.mk.down{color:#ff8a70}
+
 /* ─── Баннерная реклама вне VK (Google AdSense, блок #adSlot):
        десктоп ≥1080px — справа от игры, узкие экраны — полоса внизу.
        Внутри VK — родной баннер VK (VKWebAppShowBannerAd) ─── */
@@ -483,6 +501,8 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
       <div class="badge gold-c" id="goldBadge"><span class="bagemo" id="icoGold"></span><b id="goldVal">0</b></div>
       <div class="badge ore-c"><span class="bagemo" id="icoOre"></span><b id="oreVal">0</b></div>
       <div class="badge shard-c"><span class="bagemo" id="icoShard"></span><b id="shardVal">0</b></div>
+      <div class="badge ingot-c" id="ingotBadge"><span class="bagemo">🧱</span><b id="ingotVal">0</b></div>
+      <div class="badge rep-c" id="repBadge"><span class="bagemo">🎖</span><b id="repVal">1</b></div>
       <span id="starNote"></span>
       <span id="rateNote">⛏️ 0.8/с</span>
     </div>
@@ -494,12 +514,21 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
     <section id="tab-forge" class="tab active">
       <div class="forge-frame rv" style="--d:0s"><div id="forgeWrap">
         <canvas id="forge"></canvas>
-        <div id="hint">тапай по наковальне —<br>меч куётся!</div>
+        <div id="hint">плавь руду в горне 🔥 —<br>затем куй на наковальне!</div>
         <div id="comboBadge"></div>
         <button id="strikeBtn">⚒️ УДАР!</button>
       </div></div>
       <div class="prog-wrap rv" style="--d:.05s"><div id="progFill"></div><span id="progLabel"></span></div>
+      <div class="prog-wrap qual rv" style="--d:.08s"><div id="qualFill"></div><span id="qualLabel"></span></div>
+      <div id="stageStrip"></div>
+      <div id="actionRow" class="rv" style="--d:.1s">
+        <button id="smeltBtn" class="btn gold">🔥 ПЛАВИТЬ</button>
+        <button id="forgeBtn" class="btn">⚒ КУТЬ</button>
+      </div>
       <div id="infoStrip"></div>
+
+      <div class="section-title" id="secOrders">📜 заказы гильдии</div>
+      <div id="ordersWrap"></div>
 
       <div class="section-title" id="secRecipes">📜 рецепты</div>
       <div id="recipeChips" class="chips"></div>
@@ -536,6 +565,10 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
           <div><b id="stCombo">0</b><span id="stComboL">рекорд комбо</span></div>
           <div><b id="stBestRun">0</b><span id="stBestRunL">золото за лучший забег</span></div>
           <div><b id="stTime">0</b><span id="stTimeL">время в кузне</span></div>
+          <div><b id="stRep">1</b><span id="stRepL">репутация кузни</span></div>
+          <div><b id="stOrders">0</b><span id="stOrdersL">заказов выполнено</span></div>
+          <div><b id="stIngots">0</b><span id="stIngotsL">слитков выплавлено</span></div>
+          <div><b id="stResmelt">0</b><span id="stResmeltL">брака переплавлено</span></div>
         </div>
 
         <div class="svc">
@@ -564,45 +597,85 @@ main::-webkit-scrollbar-thumb{background:#3d2a1c;border-radius:3px}
 /* ═══════════════════ ЛОКАЛИЗАЦИЯ (п.2.14 / п.8.2.3) ═══════════════════ */
 const STR={
   ru:{
-    title:'КУЗНЯ ГЕРОЯ',docTitle:'Кузня Героя — idle-кузница',
+    title:'КУЗНЯ ГЕРОЯ',docTitle:'Кузня Героя — мастерская кузнеца',
     est:'оружейная лавка у Южных врат · осн. 1247 г.',
     tabForge:'Кузня',tabShop:'Лавка',tabProfile:'Профиль',
-    strike:'⚒️ УДАР!',
-    hintStart:'тапай по наковальне —<br>меч куётся!',
-    hintOre:'Мало руды! Тапай по <b>руднику ⛏️</b><br>и раздувай <b>меха 💨</b>',
+    strike:'⚒️ УДАР!',btnPump:'💨 МЕХИ',btnSmelt:'🔥 ПЛАВИТЬ · {c} ⛏️',btnSmelting:'⏳ ПЛАВИТСЯ…',
+    btnForge:'⚒ КУТЬ · {n}',btnForging:'⚒ ЭТАП {s}/3',btnSmeltShort:'🔥 ПЛАВИТЬ',
+    hintStart:'раздуй <b>мехи 💨</b> —<br>плавь руду на слитки!',
+    hintOre:'Мало руды! Тапай по <b>руднику ⛏️</b>',
+    hintNoIngot:'Нет слитков! <b>Плавь руду 🔥</b> —<br>затем куй на наковальне',
+    stage:'Этап {s}/3 — <b>{n}</b>',stage1:'Обжимка',stage2:'Протяжка',stage3:'Заточка',
+    toastStage:'Этап {s}/3: {n}! Зона удара сместилась 🎯',
+    toastIngot:'+1 слиток «{n}»! Чистота {p}%',
+    toastOverheat:'Перегрев! Тигель портится — убавь жар! 🔥',
+    toastNoIngot:'Нет слитков! Сначала плавь руду в горне 🔥',
+    toastForgeCancel:'Ковка отменена — слиток вернулся ↩️',
+    toastSmeltCancel:'Плавка отменена — руда вернулась ↩️',
+    toastBrak:'Брак! Качество ниже 30 — меч только в переплавку 💔',
+    toastMiss:'Мимо! Качество −',toastHit3:'Точно! Качество +',toastHit2:'Хорошо! Качество +',
+    resmelt:'♻ {n}',resmeltD:'переплавить брак → {c} ⛏️',toastResmelt:'Брак переплавлен: +{c} ⛏️',
+    qual:'Качество: {q}',qualMax:'Качество: {q} МАКС',
+    purity:'чистота {p}%',ingots:'слитков',
+    infoIdle:'плавка: {c} ⛏️ → слиток · слитков: {n} · этап 1: обжимка',
+    infoSmelt:'🔥 жар {h} · зона {lo}–{hi} · тигель {f}% · {p}',
+    infoForge:'Этап {s}/3 — {n} · зона у {z}!',
     secRecipes:'📜 рецепты',secDaily:'📋 заказы дня',secRaid:'⚔️ рейд за осколками',secStorage:'🎒 склад — продавай и экипируй',
     secUpgrades:'⚒️ Улучшения',secHeroes:'🧑‍🤝‍ Герои',secDungeons:'🗺️ Подземелья — откуда носят руду',
     secNewRecipes:'📜 Рецепты — новые мечи',secShards:'💠 Обмен осколков — добываются в рейдах',
     secDecor:'🏠 Интерьер кузни',secLegend:'👑 Легенда кузни — престиж',
+    secOrders:'📜 заказы гильдии',
+    orderNeed:'{i} «{n}» · качество: {q}',
+    qMinN:'обычное+ ⚔',qMinR:'закалённое+ 🔷',qMinE:'шедевр ⭐',
+    orderDo:'Выполнить',orderSoon:'Гонец в пути…',orderCd:'ждём {v} с',
+    toastOrderDone:'{n} доволен! +{g} 🪙 · 🎖 +{r}',
+    toastOrderExpired:'Гонец ушёл ни с чем… репутация −2 😔',
+    toastOrderDecl:'Заказ отклонён — гонец поищет другого кузнеца',
+    toastRepUp:'🎖 Репутация кузни: ур. {n}! +4% к цене мечей',
+    perkSlots:'Открыт 3-й слот заказов!',
+    perkSlot4:'Открыт 4-й слот заказов!',
+    perkEpic:'Доступны шедевральные заказы ⭐!',
+    perkRoyal:'Королевские заказы: награда ×5!',
+    mileOrder:'Первый заказ гильдии выполнен! 📜',
+    stRep:'репутация кузни',stOrders:'заказов выполнено',
     hello:'⚒️ Кузня ждёт тебя',helloName:'Здравствуй, {n}! ⚒️',
-    profileSub:'Idle-кузница · короткие сессии',
+    profileSub:'Плавка · ковка в 3 этапа · заказы гильдии',
     howTitle:'📖 Как играть',statsTitle:'🏆 Летопись кузни',
     how:[
-      '⛏️ Герои носят руду сами — даже офлайн (до 8 часов).',
-      '⛏️ <b>Рудник</b>: кончилась руда? Тапай по жиле — добудь сам! Заряды копятся.',
-      '💨 <b>Меха</b>: тапай по огню — жар до ×2 ускоряет героев.',
+      '🔥 <b>Плавка</b>: раздувай мехи и держи жар в зоне металла — получишь слиток. Чистота плавки задаёт стартовое качество ковки!',
+      '🌡️ У каждого металла своя зона плавки. <b>Перегрел</b> — тигель портится, чистота падает.',
+      '⚒️ <b>Ковка — 3 этапа</b>: обжимка → протяжка → заточка. На каждом этапе зона удара смещается!',
+      '🎯 Каждой удар меняет <b>шкалу качества</b>: точно +, мимо −. Итог: брак 💔 / обычное ⚔ / закалённое 🔷 / шедевр ⭐.',
+      '🧱 <b>Слитки — ресурс</b>: плавь впрок, куй когда удобно. Плавка и ковка идут параллельно!',
+      '💔 <b>Брак не пропадает</b>: переплавь его на складе — вернёшь часть руды.',
+      '📜 <b>Заказы гильдии</b>: нужный меч + качество до дедлайна — награда ×2–5 и репутация.',
+      '📈 <b>Рынок</b>: цены мечей плавают. Продавай на зелёной стрелке ▲ — заработаешь больше!',
+      '🎖 <b>Репутация кузни</b>: за уровень +4% к цене, новые слоты и королевские заказы.',
+      '🧑‍🏭 <b>Подмастерье</b> сам куёт обычные мечи из руды — но шедевры только твои.',
+      '✨ <b>Апгрейды меняют мини-игры</b>: Мехи — жар, Тигель — скорость плавки, Мастерство — цену точного удара.',
       '🐈 <b>Погладь кота</b> — +10% удачи на 30 секунд.',
-      '⚒️ Тапай по наковальне, лови <b>тайминг</b> (×3) и комбо.',
-      '🔥 Комбо ×50 = <b>Раж</b>: 15 секунд автокритов.',
-      '💠 <b>Рейд</b> — всего 5 минут, награда осколки.',
-      '📋 <b>Заказы дня</b> — выполняй за золото и удачу.',
-      '⭐ Метеориты и кот-ворюга — тапай по ним!',
-      '📺 Реклама <b>по желанию</b>: удваивай награды.',
+      '🔥 Комбо ×50 = <b>Раж</b>: 15 секунд автокритов, зона шире.',
       '👑 <b>Престиж</b>: звёзды за 100К золота (+25% каждая).'
     ],
     stGold:'золота заработано',stForged:'мечей выковано',stSold:'мечей продано',stStrikes:'ударов молотом',
     stMined:'руды добыто вручную',stEpic:'шедевров',stStars:'звёзд легенды',stCombo:'рекорд комбо',
     stBestRun:'золото за лучший забег',stTime:'время в кузне',
+    stIngots:'слитков выплавлено',stResmelt:'брака переплавлено',
     save:'💾 Сохранить',reset:'🗑 Сброс',
     profileNote:'Прогресс сохраняется автоматически · в VK — ещё и облачно.<br>Реклама опциональна и не обязательна для прохождения.<br>Кнопка «Сброс» удаляет прогресс и все ваши данные.',
     rateOre:'⛏️ {v}/с',rateRaid:'⚔️ отряд в рейде',
     needOre:'⛏️ {v}',prog:'{i} {n}: {c}/{w} ⚒️',progNeed:'{i} {n} · нужно ⛏️ {v}',
     info:'⛏️ рудник {v}/удар ✦ 🔨 +{p} ✦ ⚙️ {a}/с ✦ 🍀 {l}%',
-    upPower:'Мощь Молота',upAuto:'Авто-Молот',upPick:'Кирка рудокопа',upLuck:'Удача Кузнеца',
+    upPower:'Мощь Молота',upBellows:'Мехи горна',upCrucible:'Тигель',upMastery:'Мастерство',
+    upPick:'Кирка рудокопа',upLuck:'Удача Кузнеца',upApprentice:'Подмастерье',
     upPowerD:'Удар: +{a} → +{b} прогресса',
-    upAutoD0:'Авто: 0/с → 1/с — куёт сам!',upAutoD:'Авто: {a}/с → {b}/с',
+    upBellowsD:'Жар от мехов: +{a} → +{b} · остывание медленнее',
+    upCrucibleD:'Плавка: {a}% → {b}% за секунду',
+    upMasteryD:'Точный удар: +{a} → +{b} к качеству',
+    upMasteryMax:'Мастерство {a}+ — предел',
+    upApprenticeD:'Куёт обычные мечи сам: {a}/мин (из руды)',
     upPickD:'Рудник: {a} → {b} ⛏️ за удар',
-    upLuckD:'Крит {a}% → {b}% · шедевр +{l}%',upLuckMax:'Крит {a}% — максимум',
+    upLuckD:'Крит {a}% → {b}%',upLuckMax:'Крит {a}% — максимум',
     max:'МАКС',lvl:'ур. {l}',lvlMax:'ур. {l}/{m}',
     heroes:'Герои',hireHero:'Нанять героя',heroParty:'отряд: {n}',
     heroDesc:'добыча {r} ⛏️/с · {d}',heroDescEquip:' · экип +{p}% руды',hire:'Нанять · {c} 🪙',
@@ -611,7 +684,7 @@ const STR={
     recipes:'Рецепты — новые мечи',rLearned:'изучено ✓',rSale:'продажа {p} 🪙 · руда {o}',rLearn:'Учить · {c} 🪙',
     shardSec:'Обмен осколков — добываются в рейдах',
     shardGift:'Дары дракона',shardGiftD:'посмотри рекламу — получи 3 💠',shardWatch:'Смотреть',
-    whet:'Оселок',whetD:'+25% к ковке текущего меча',orePack:'Связка руды',orePackD:'+2 минуты добычи руды',
+    whet:'Оселок',whetD:'в ковке: +6 к качеству · в плавке: +25% чистоты',orePack:'Связка руды',orePackD:'+2 минуты добычи руды',
     rShard:'рецепт за осколки',
     decor:'Интерьер кузни',
     legend:'Легенда кузни — престиж',legendStars:'Звёзды Легенд',
@@ -629,13 +702,13 @@ const STR={
     qForge:'Выкуй {t} мечей',qGold:'Заработай {t} золота',qStrikes:'Сделай {t} ударов',qSell:'Продай {t} мечей',qRare:'Выкуй {t} закалённых+',
     qLuck:'🍀 +1 удача',
     awayTitle:'⏰ Пока тебя не было…',awayGone:'Ты отсутствовал: <b>{t}</b>',
-    awayOre:'⛏️ Руды добыто: <b>+{o}</b>',awaySwords:'<br>{i} Мечей выковано: <b>+{f}</b>',
+    awayOre:'⛏️ Руды добыто: <b>+{o}</b>',awaySwords:'<br>{i} Подмастерье выковал: <b>+{f}</b>',
     awayGift:'<br>💠 Подарок за возвращение: <b>+1 осколок</b>!',
-    awayTip:'<br><span class="small dim">Совет: купи Авто-Молот — кузня будет работать сама!</span>',
+    awayTip:'<br><span class="small dim">Совет: найми Подмастерье — он куёт сам!</span>',
     awayCollect:'Забрать! 🪙',awayDouble:'📺 ×2 (реклама)',
     resetTitle:'🗑 Сбросить прогресс?',resetP:'Прогресс будет удалён с устройства И из облачного хранилища VK — все данные игры о вас. Действие необратимо.',resetYes:'Да, удалить всё',
     eulaTitle:'Добро пожаловать в кузницу!',eulaP:'Продолжая игру, вы принимаете пользовательское соглашение и политику конфиденциальности приложения (доступны на странице приложения в каталоге VK). Игра хранит игровой прогресс на устройстве и, внутри VK, в облаке VK; имя профиля используется только для приветствия. Возрастная категория: 0+. Прогресс и данные можно удалить в любой момент кнопкой «Сброс» в профиле.',eulaBtn:'Принимаю — куй!',supportBtn:'🛠 Поддержка',soundT:'Звук',
-    welcome:'Добро пожаловать в кузню! Тапай по наковальне ⚒️',
+    welcome:'Добро пожаловать в кузню! Плавь руду 🔥 и куй мечи ⚒️',
     toastSaved:'Сохранено 💾',toastProgress:'Прогресс сохранён 💾',
     toastNoOre:'Не хватает руды! Тапай по руднику ⛏️',
     toastNoGold:'Не хватает золота — продай ещё мечей! 🪙',
@@ -667,9 +740,9 @@ const STR={
     toastDecor:'{n} — в кузне стало уютнее! {i}',
     toastLegend:'Легенда! +{g} ⭐ (всего {t}) — кузня возрождается',
     toastDouble:'Награда удвоена! 📺',
-    toastReset:'Ковка сброшена — руда возвращена ↩️',
+    toastReset:'Плавка отменена — руда вернулась ↩️',
     toastSecondHero:'Второй герой присоединился к кузне! ⛏️',
-    mileSale:'Первая продажа! Начало славы 🎉',mileAuto:'Авто-молот куплен — кузня пашет сама! ⚙️',
+    mileSale:'Первая продажа! Начало славы 🎉',mileAuto:'Подмастерье нанят — кузня куёт и без тебя! 🧑‍🏭',
     mileF10:'10 мечей выковано! ⚒️',mileF100:'Сотня мечей! Ты мастер-кузнец! 🏆',
     mileG1k:'Первая 1 000 золота! 🪙',mileG100k:'100 000 золота — королевство знает героя! 👑',
     mileH5:'Отряд из 5 героев! 🧑‍🤝‍',mileDr:'Рецепт Дракона — вершина кузни! 🐉',
@@ -687,45 +760,71 @@ const STR={
     frenzy:'РАЖ'
   },
   en:{
-    title:"HERO'S FORGE",docTitle:"Hero's Forge — Idle Blacksmith",
+    title:"HERO'S FORGE",docTitle:"Hero's Forge — Blacksmith Workshop",
     est:'weapon shop by the South Gate · est. 1247',
     tabForge:'Forge',tabShop:'Shop',tabProfile:'Profile',
-    strike:'⚒️ STRIKE!',
-    hintStart:'tap the anvil —<br>the sword is being forged!',
-    hintOre:'Low on ore! Tap the <b>mine ⛏️</b><br>and pump the <b>bellows 💨</b>',
+    strike:'⚒️ STRIKE!',btnPump:'💨 BELLOWS',btnSmelt:'🔥 SMELT · {c} ⛏️',btnSmelting:'⏳ SMELTING…',
+    btnForge:'⚒ FORGE · {n}',btnForging:'⚒ STAGE {s}/3',btnSmeltShort:'🔥 SMELT',
+    hintStart:'pump the <b>bellows 💨</b> —<br>smelt ore into ingots!',
+    hintOre:'Low on ore! Tap the <b>mine ⛏️</b>',
+    hintNoIngot:'No ingots! <b>Smelt ore 🔥</b> —<br>then forge at the anvil',
+    stage:'Stage {s}/3 — <b>{n}</b>',stage1:'Drawing out',stage2:'Shaping',stage3:'Edge work',
+    toastStage:'Stage {s}/3: {n}! The strike zone has moved 🎯',
+    toastIngot:'+1 "{n}" ingot! Purity {p}%',
+    toastOverheat:'Overheated! The crucible is spoiling — cool it down! 🔥',
+    toastNoIngot:'No ingots! Smelt ore in the furnace first 🔥',
+    toastForgeCancel:'Forging cancelled — ingot returned ↩️',
+    toastSmeltCancel:'Smelting cancelled — ore returned ↩️',
+    toastBrak:'Defective! Quality below 30 — only good for remelting 💔',
+    toastMiss:'Miss! Quality −',toastHit3:'Perfect! Quality +',toastHit2:'Good! Quality +',
+    resmelt:'♻ {n}',resmeltD:'remelt defects → {c} ⛏️ ore',toastResmelt:'Defects remelted: +{c} ⛏️',
+    qual:'Quality: {q}',qualMax:'Quality: {q} MAX',
+    purity:'purity {p}%',ingots:'ingots',
+    infoIdle:'smelt: {c} ⛏️ → ingot · ingots: {n} · stage 1: drawing out',
+    infoSmelt:'🔥 heat {h} · zone {lo}–{hi} · crucible {f}% · {p}',
+    infoForge:'Stage {s}/3 — {n} · zone at {z}!',
     secRecipes:'📜 recipes',secDaily:'📋 daily orders',secRaid:'⚔️ shard raid',secStorage:'🎒 storage — sell & equip',
     secUpgrades:'⚒️ Upgrades',secHeroes:'🧑‍🤝‍ Heroes',secDungeons:'🗺️ Dungeons — where ore comes from',
     secNewRecipes:'📜 Recipes — new swords',secShards:'💠 Shard exchange — earned in raids',
     secDecor:'🏠 Forge interior',secLegend:'👑 Forge Legend — prestige',
     hello:'⚒️ The forge awaits you',helloName:'Hello, {n}! ⚒️',
-    profileSub:'Idle forge · short sessions',
+    profileSub:'Smelting · 3-stage forging · guild orders',
     howTitle:'📖 How to play',statsTitle:'🏆 Forge chronicle',
     how:[
-      '⛏️ Heroes mine ore automatically — even offline (up to 8 hours).',
-      '⛏️ <b>Mine</b>: out of ore? Tap the vein to mine yourself! Charges regenerate.',
-      '💨 <b>Bellows</b>: tap the fire — heat boosts heroes up to ×2.',
+      '🔥 <b>Smelting</b>: pump the bellows and keep the heat inside the metal\'s zone — get an ingot. Purity sets the starting forging quality!',
+      '🌡️ Every metal has its own melt zone. <b>Overheat</b> — the crucible spoils and purity drops.',
+      '⚒️ <b>Forging — 3 stages</b>: drawing out → shaping → edge work. The strike zone moves on every stage!',
+      '🎯 Every strike moves the <b>quality bar</b>: precise +, missed −. Result: defective 💔 / normal ⚔ / tempered 🔷 / masterpiece ⭐.',
+      '🧱 <b>Ingots are a resource</b>: smelt in advance, forge when you like. Smelting and forging run in parallel!',
+      '💔 <b>Defects are not lost</b>: remelt them in storage to get some ore back.',
+      '📜 <b>Guild orders</b>: the right sword + quality before the deadline — reward ×2–5 and reputation.',
+      '📈 <b>Market</b>: sword prices fluctuate. Sell on the green arrow ▲ to earn more!',
+      '🎖 <b>Forge reputation</b>: +4% price per level, new slots and royal orders.',
+      '🧑‍🏭 The <b>Apprentice</b> forges ordinary swords from ore by himself — masterpieces are yours alone.',
+      '✨ <b>Upgrades change the minigames</b>: Bellows — heat, Crucible — smelting speed, Mastery — value of a precise strike.',
       '🐈 <b>Pet the cat</b> — +10% luck for 30 seconds.',
-      '⚒️ Tap the anvil, catch the <b>timing</b> (×3) and build combos.',
-      '🔥 Combo ×50 = <b>Frenzy</b>: 15 seconds of auto-crits.',
-      '💠 <b>Raid</b> — just 5 minutes, rewards shards.',
-      '📋 <b>Daily orders</b> — complete them for gold and luck.',
-      '⭐ Meteorites and the thief cat — tap them!',
-      '📺 Ads are <b>optional</b>: double your rewards.',
+      '🔥 Combo ×50 = <b>Frenzy</b>: 15 seconds of auto-crits, wider zone.',
       '👑 <b>Prestige</b>: stars for 100K gold (+25% each).'
     ],
     stGold:'gold earned',stForged:'swords forged',stSold:'swords sold',stStrikes:'hammer strikes',
     stMined:'ore mined by hand',stEpic:'masterpieces',stStars:'legend stars',stCombo:'combo record',
     stBestRun:'best run gold',stTime:'time at the forge',
+    stIngots:'ingots smelted',stResmelt:'defects remelted',
     save:'💾 Save',reset:'🗑 Reset',
     profileNote:'Progress saves automatically · in VK it also syncs to the cloud.<br>Ads are optional and not required to play.<br>“Reset” in the profile deletes progress and all your data.',
     rateOre:'⛏️ {v}/s',rateRaid:'⚔️ party on raid',
     needOre:'⛏️ {v}',prog:'{i} {n}: {c}/{w} ⚒️',progNeed:'{i} {n} · needs ⛏️ {v}',
     info:'⛏️ mine {v}/tap ✦ 🔨 +{p} ✦ ⚙️ {a}/s ✦ 🍀 {l}%',
-    upPower:'Hammer Power',upAuto:'Auto-Hammer',upPick:"Miner's Pickaxe",upLuck:"Smith's Luck",
+    upPower:'Hammer Power',upBellows:'Forge Bellows',upCrucible:'Crucible',upMastery:'Mastery',
+    upPick:"Miner's Pickaxe",upLuck:"Smith's Luck",upApprentice:'Apprentice',
     upPowerD:'Strike: +{a} → +{b} progress',
-    upAutoD0:'Auto: 0/s → 1/s — forges by itself!',upAutoD:'Auto: {a}/s → {b}/s',
+    upBellowsD:'Bellows heat: +{a} → +{b} · cools down slower',
+    upCrucibleD:'Smelting: {a}% → {b}% per second',
+    upMasteryD:'Precise strike: +{a} → +{b} quality',
+    upMasteryMax:'Mastery {a}+ — limit',
+    upApprenticeD:'Forges ordinary swords by himself: {a}/min (from ore)',
     upPickD:'Mine: {a} → {b} ⛏️ per tap',
-    upLuckD:'Crit {a}% → {b}% · masterpiece +{l}%',upLuckMax:'Crit {a}% — maximum',
+    upLuckD:'Crit {a}% → {b}%',upLuckMax:'Crit {a}% — maximum',
     max:'MAX',lvl:'lvl {l}',lvlMax:'lvl {l}/{m}',
     heroes:'Heroes',hireHero:'Hire a hero',heroParty:'party: {n}',
     heroDesc:'mining {r} ⛏️/s · {d}',heroDescEquip:' · equip +{p}% ore',hire:'Hire · {c} 🪙',
@@ -734,9 +833,23 @@ const STR={
     recipes:'Recipes — new swords',rLearned:'learned ✓',rSale:'sells for {p} 🪙 · ore {o}',rLearn:'Learn · {c} 🪙',
     shardSec:'Shard exchange — earned in raids',
     shardGift:'Dragon Gifts',shardGiftD:'watch an ad — get 3 💠',shardWatch:'Watch',
-    whet:'Whetstone',whetD:'+25% to forging the current sword',orePack:'Ore bundle',orePackD:'+2 minutes of ore mining',
+    whet:'Whetstone',whetD:'while forging: +6 quality · while smelting: +25% purity',orePack:'Ore bundle',orePackD:'+2 minutes of ore mining',
     rShard:'recipe for shards',
     decor:'Forge interior',
+    secOrders:'📜 guild orders',
+    orderNeed:'{i} "{n}" · quality: {q}',
+    qMinN:'normal+ ⚔',qMinR:'tempered+ 🔷',qMinE:'masterpiece ⭐',
+    orderDo:'Deliver',orderSoon:'A messenger is on the way…',orderCd:'waiting {v}s',
+    toastOrderDone:'{n} is happy! +{g} 🪙 · 🎖 +{r}',
+    toastOrderExpired:'The messenger left empty-handed… reputation −2 😔',
+    toastOrderDecl:'Order declined — the messenger will find another smith',
+    toastRepUp:'🎖 Forge reputation: lvl {n}! +4% to sword price',
+    perkSlots:'Third order slot unlocked!',
+    perkSlot4:'Fourth order slot unlocked!',
+    perkEpic:'Masterpiece orders unlocked ⭐!',
+    perkRoyal:'Royal orders: ×5 reward!',
+    mileOrder:'First guild order completed! 📜',
+    stRep:'forge reputation',stOrders:'orders completed',
     legend:'Forge Legend — prestige',legendStars:'Legend Stars',
     legendD:'each star: +25% to sword price and auto-hammer speed. Reset clears the forge, but stars are permanent.',
     legendBtn:'Become a Legend',legendBtnG:'Become a Legend +{g} ⭐',
@@ -752,13 +865,13 @@ const STR={
     qForge:'Forge {t} swords',qGold:'Earn {t} gold',qStrikes:'Make {t} strikes',qSell:'Sell {t} swords',qRare:'Forge {t} tempered+',
     qLuck:'🍀 +1 luck',
     awayTitle:'⏰ While you were away…',awayGone:'You were away: <b>{t}</b>',
-    awayOre:'⛏️ Ore mined: <b>+{o}</b>',awaySwords:'<br>{i} Swords forged: <b>+{f}</b>',
+    awayOre:'⛏️ Ore mined: <b>+{o}</b>',awaySwords:'<br>{i} Apprentice forged: <b>+{f}</b>',
     awayGift:'<br>💠 Welcome-back gift: <b>+1 shard</b>!',
-    awayTip:'<br><span class="small dim">Tip: buy the Auto-Hammer — the forge works by itself!</span>',
+    awayTip:'<br><span class="small dim">Tip: hire the Apprentice — he forges by himself!</span>',
     awayCollect:'Collect! 🪙',awayDouble:'📺 ×2 (ad)',
     resetTitle:'🗑 Reset progress?',resetP:'Your progress will be deleted from the device AND from VK cloud storage — all game data about you. This cannot be undone.',resetYes:'Delete everything',
     eulaTitle:'Welcome to the forge!',eulaP:'By continuing you accept the app’s user agreement and privacy policy (available on the app page in the VK catalog). The game stores progress on the device and, inside VK, in VK cloud; your profile name is used for the greeting only. Age rating: 0+. Progress and data can be deleted anytime via the “Reset” button in the profile.',eulaBtn:'Accept — let’s forge!',supportBtn:'🛠 Support',soundT:'Sound',
-    welcome:'Welcome to the forge! Tap the anvil ⚒️',
+    welcome:'Welcome to the forge! Smelt ore 🔥 and forge swords ⚒️',
     toastSaved:'Saved 💾',toastProgress:'Progress saved 💾',
     toastNoOre:'Not enough ore! Tap the mine ⛏️',
     toastNoGold:'Not enough gold — sell more swords! 🪙',
@@ -790,9 +903,9 @@ const STR={
     toastDecor:'{n} — the forge is cozier now! {i}',
     toastLegend:'Legend! +{g} ⭐ ({t} total) — the forge is reborn',
     toastDouble:'Reward doubled! 📺',
-    toastReset:'Forging reset — ore returned ↩️',
+    toastReset:'Smelting cancelled — ore returned ↩️',
     toastSecondHero:'A second hero joined the forge! ⛏️',
-    mileSale:'First sale! The beginning of glory 🎉',mileAuto:'Auto-hammer bought — the forge runs itself! ⚙️',
+    mileSale:'First sale! The beginning of glory 🎉',mileAuto:'Apprentice hired — the forge works without you! 🧑‍🏭',
     mileF10:'10 swords forged! ⚒️',mileF100:'A hundred swords! You are a master smith! 🏆',
     mileG1k:'First 1,000 gold! 🪙',mileG100k:'100,000 gold — the kingdom knows the hero! 👑',
     mileH5:'A party of 5 heroes! 🧑‍🤝‍',mileDr:'Dragon recipe — the peak of the forge! 🐉',
@@ -864,11 +977,17 @@ function emojiToSvg(emoji,color){
 
 /* ═══════════════════ ДАННЫЕ ═══════════════════ */
 const RECIPES=[
-  {id:'bronze', nameKey:'recBronze', icon:'🗡️', tier:1, ore:10,  work:6,   price:18,   unlock:0,     color:'#d89048'},
-  {id:'iron',   nameKey:'recIron',   icon:'⚔️', tier:2, ore:32,  work:16,  price:85,   unlock:300,   color:'#aebfd4'},
-  {id:'mithril',nameKey:'recMithril',icon:'🗡️', tier:3, ore:95,  work:42,  price:360,  unlock:2600,  color:'#5fe8ff'},
-  {id:'dragon', nameKey:'recDragon', icon:'🗡️', tier:4, ore:260, work:115, price:1600, unlock:16000, color:'#ff5c4d'},
+  {id:'bronze', nameKey:'recBronze', icon:'🗡️', tier:1, ore:10,  work:6,   price:18,   unlock:0,     color:'#d89048', melt:{lo:35,hi:65,dec:5.5}},
+  {id:'iron',   nameKey:'recIron',   icon:'⚔️', tier:2, ore:32,  work:16,  price:85,   unlock:300,   color:'#aebfd4', melt:{lo:45,hi:75,dec:6.5}},
+  {id:'mithril',nameKey:'recMithril',icon:'🗡️', tier:3, ore:95,  work:42,  price:360,  unlock:2600,  color:'#5fe8ff', melt:{lo:50,hi:80,dec:7.5}},
+  {id:'dragon', nameKey:'recDragon', icon:'🗡️', tier:4, ore:260, work:115, price:1600, unlock:16000, color:'#ff5c4d', melt:{lo:55,hi:88,dec:8.5}},
 ];
+/* Этапы ковки (v5.0): у каждого этапа своя зона удара */
+const STAGES=['stage1','stage2','stage3'];
+/* Пороги качества (шкала 0–100): брак / обычное / закалённое / шедевр */
+const Q_E=82,Q_R=56,Q_N=30;
+/* Качество = старт (от чистоты слитка) + 6 × средняя цена удара */
+const QUAL_K=6;
 const DUNGEONS=[
   {id:'copper', nameKey:'dunCopper',  icon:'⛰️', rate:0.8, unlock:0},
   {id:'iron',   nameKey:'dunIron',    icon:'🕳️', rate:2.6, unlock:500},
@@ -879,19 +998,28 @@ const R={},D={};RECIPES.forEach(r=>R[r.id]=r);DUNGEONS.forEach(d=>D[d.id]=d);
 const HERO_EMO=['🧝‍️','🧙‍♂️','🦸‍️','🥷','‍','🤺'];
 const BUYER_EMO=['🧝‍♀️','🧙‍♂️','🥷','','👸','🧟','🦹‍♂️','🤠'];
 const UPG=[
+  {key:'bellows',icon:'💨',nameKey:'upBellows',cost:l=>Math.round(140*Math.pow(1.75,l)),
+    desc:l=>t('upBellowsD',{a:Math.round(15+l*2.5),b:Math.round(15+(l+1)*2.5)})},
+  {key:'crucible',icon:'🏺',nameKey:'upCrucible',cost:l=>Math.round(120*Math.pow(1.7,l)),
+    desc:l=>t('upCrucibleD',{a:Math.round((0.32+l*0.06)*100),b:Math.round((0.32+(l+1)*0.06)*100)})},
   {key:'power',icon:'🔨',nameKey:'upPower',cost:l=>Math.round(60*Math.pow(1.7,l)),
     desc:l=>t('upPowerD',{a:l+1,b:l+2})},
-  {key:'auto', icon:'⚙️',nameKey:'upAuto',cost:l=>Math.round(100*Math.pow(1.55,l)),
-    desc:l=>l===0?t('upAutoD0'):t('upAutoD',{a:l,b:l+1})},
+  {key:'mastery',icon:'📐',nameKey:'upMastery',max:6,cost:l=>Math.round(500*Math.pow(2.2,l)),
+    desc:l=>t('upMasteryD',{a:10+2*l,b:10+2*(l+1)}),maxDesc:l=>t('upMasteryMax',{a:10+2*l})},
   {key:'pick', icon:'⛏️',nameKey:'upPick',cost:l=>Math.round(80*Math.pow(1.85,l)),
     desc:l=>t('upPickD',{a:veinYieldAt(l),b:veinYieldAt(l+1)})},
   {key:'luck', icon:'🍀',nameKey:'upLuck',max:10,cost:l=>Math.round(350*Math.pow(2.1,l)),
     desc:l=>t('upLuckD',{a:5+l*2,b:7+l*2,l:l}),maxDesc:l=>t('upLuckMax',{a:5+l*2})},
+  {key:'apprentice',icon:'🧑‍🏭',nameKey:'upApprentice',cost:l=>Math.round(400*Math.pow(1.85,l)),
+    desc:l=>t('upApprenticeD',{a:3*(l+1)})},
 ];
 const QMULT={b:0.5,n:1,r:2,e:5};
 const QORD=['b','n','r','e'];
 const EQUIP_BONUS={bronze:0.15,iron:0.25,mithril:0.35,dragon:0.50};
 const SHARD_RECIPE={iron:6,mithril:18,dragon:45};
+/* Репутация кузни (v4.0): уровни за заказы; перки по уровням */
+const REP_PERKS={2:'perkSlots',3:'perkEpic',4:'perkRoyal',6:'perkSlot4'};
+function repNeed(l){return Math.round(10*Math.pow(1.42,l-1));}
 const QTE_ZONE={bronze:0.30,iron:0.24,mithril:0.18,dragon:0.14};
 const QTE_SPEED={bronze:3.2,iron:3.8,mithril:4.4,dragon:5.0};
 const DECOR_DEF=[
@@ -903,7 +1031,7 @@ const EXP_MS=5*60*1000;
 const METEOR_FIRST=25000,METEOR_MIN=60000,METEOR_VAR=60000;
 const CAT_FIRST=40000,CAT_MIN=45000,CAT_VAR=50000;
 const VEIN_MAX=15,VEIN_REGEN=0.5,VEIN_X=0.44;
-const HEAT_MAX=100,HEAT_DECAY=3,HEAT_PUMP=20;
+const HEAT_MAX=110;
 const KEY='herosForge_v3';
 const VK_SAVE_KEY='herosForge_v4';
 const RADII=['9px 14px 10px 13px / 13px 9px 14px 10px','12px 9px 13px 10px / 10px 13px 9px 14px','10px 13px 9px 14px / 14px 10px 13px 9px'];
@@ -911,11 +1039,16 @@ function QICON(q){return q==='b'?t('qBad'):q==='r'?t('qRare'):q==='e'?t('qEpic')
 function rName(r){return t(r.nameKey);}
 function dName(d){return t(d.nameKey);}
 
-/* ═══════════════════ СОСТОЯНИЕ (v4) ═══════════════════ */
+/* ═══════════════════ СОСТОЯНИЕ (v6: плавка + ковка) ═══════════════════ */
 function emptyInv(){return{n:0,b:0,r:0,e:0};}
+function emptyIngots(){return{bronze:0,iron:0,mithril:0,dragon:0};}
 function defaultState(){return{
-  v:4,gold:20,ore:30,shards:0,stars:0,runGold:0,
+  v:6,gold:20,ore:30,shards:0,stars:0,runGold:0,
+  rep:0,repLvl:1,orders:null,orderCd:[10,26,42,58],
   inv:{bronze:emptyInv(),iron:emptyInv(),mithril:emptyInv(),dragon:emptyInv()},
+  ingots:emptyIngots(),ingotPurity:{bronze:.55,iron:.55,mithril:.55,dragon:.55},
+  smelt:null,stage:1,hitSum:0,hitCnt:0,qteCenter:0.5,
+  market:{m:{bronze:1,iron:1,mithril:1,dragon:1},cd:90},
   unlocked:{bronze:true,iron:false,mithril:false,dragon:false},
   dUnlocked:{copper:true,iron:false,mithril:false,dragon:false},
   equipped:{bronze:0,iron:0,mithril:0,dragon:0},
@@ -923,8 +1056,8 @@ function defaultState(){return{
   decor:{tapestry:false,goldenAnvil:false,cat2:false},
   daily:null,exp:null,
   activeDungeon:'copper',curRecipe:'bronze',progress:0,started:false,
-  power:0,auto:0,pick:0,luck:0,heroes:1,
-  stats:{gold:0,forged:0,strikes:0,sold:0,time:0,rareForged:0,epicForged:0,mined:0},
+  bellows:0,crucible:0,power:0,mastery:0,pick:0,luck:0,apprentice:0,heroes:1,
+  stats:{gold:0,forged:0,strikes:0,sold:0,time:0,rareForged:0,epicForged:0,mined:0,orders:0,ingots:0,resmelt:0},
   bestCombo:0,bestRun:0,
   flags:{},muted:false,last:Date.now(),evtCd:12
 };}
@@ -943,15 +1076,32 @@ function migrate(d){
     if(d.stats){d.stats.rareForged=0;d.stats.epicForged=0;d.stats.mined=0;}
     d.v=4;
   }
+  if(d.v===4){
+    d.rep=0;d.repLvl=1;d.orders=null;d.orderCd=[10,26,42,58];
+    if(d.stats&&!d.stats.orders)d.stats.orders=0;
+    d.v=5;
+  }
+  if(d.v===5){
+    /* v5 → v6: Авто-Молот стал Подмастерьем; слитки/рынок/этапы — с нуля */
+    d.ingots=emptyIngots();
+    d.ingotPurity={bronze:.55,iron:.55,mithril:.55,dragon:.55};
+    d.smelt=null;d.stage=1;d.hitSum=0;d.hitCnt=0;d.qteCenter=0.5;
+    d.market={m:{bronze:1,iron:1,mithril:1,dragon:1},cd:90};
+    d.apprentice=d.auto||0;
+    d.bellows=0;d.crucible=0;d.mastery=0;
+    if(d.stats){d.stats.ingots=0;d.stats.resmelt=0;}
+    delete d.auto;
+    d.v=6;
+  }
   return d;
 }
 function load(){try{
   const raw=localStorage.getItem(KEY);if(!raw)return false;
   let d=JSON.parse(raw);if(!d||!d.v)return false;
-  d=migrate(d);if(d.v!==4)return false;
+  d=migrate(d);if(d.v!==6)return false;
   const def=defaultState();
   S=Object.assign({},def,d);
-  ['inv','unlocked','dUnlocked','equipped','museum','decor','stats'].forEach(k=>{
+  ['inv','unlocked','dUnlocked','equipped','museum','decor','stats','ingots','ingotPurity','market'].forEach(k=>{
     S[k]=Object.assign({},def[k],d[k]||{});
   });
   RECIPES.forEach(r=>{if(typeof S.inv[r.id]!=='object'||S.inv[r.id]===null)S.inv[r.id]={n:S.inv[r.id]|0,b:0,r:0,e:0};});
@@ -969,7 +1119,7 @@ function initSDK(){
   return p.then(b=>{
     if(!b)return null;
     bridge=b;
-    detectLang();applyStaticText();buildShop();buildDaily();buildExp();buildChips();buildInv();ui();
+    detectLang();applyStaticText();buildShop();buildDaily();buildExp();buildChips();buildInv();ensureOrders();renderOrders();ui();
     try{
       b.send('VKWebAppGetUserInfo').then(u=>{
         if(u&&u.first_name){playerName=u.first_name;setTxt($('hello'),t('helloName',{n:playerName}));}
@@ -1066,32 +1216,72 @@ function gainGold(n){S.gold+=n;S.stats.gold+=n;S.runGold+=n;if(S.runGold>S.bestR
 
 function equipBonus(){let b=0;RECIPES.forEach(r=>{b+=S.equipped[r.id]*EQUIP_BONUS[r.id];});return b;}
 function baseOreRate(){return S.heroes*D[S.activeDungeon].rate*(1+equipBonus());}
-function heatMult(){return 1+heat/HEAT_MAX;}
-function currentOreRate(){return S.exp?0:baseOreRate()*heatMult();}
-function autoRate(){return S.auto*(1+0.25*S.stars);}
+function heatMult(){return 1+heat/HEAT_MAX;} /* жар — только визуал пламени */
+function currentOreRate(){return S.exp?0:baseOreRate();}
+function apprenticeRate(){return S.apprentice*0.05*(1+0.25*S.stars);} /* слитки → мечи, шт/с */
 function critChance(){return 0.05+S.luck*0.02+(S.decor.goldenAnvil?0.05:0)+(performance.now()<catBuffUntil?0.10:0);}
+/* ─── РЫНОК (v5.0): цены плавают ±25%, обновление каждые 90 с ─── */
+function marketMult(rid){return (S.market&&S.market.m&&S.market.m[rid])||1;}
+function marketArrow(rid){const m=marketMult(rid);return m>=1.08?'▲':m<=0.92?'▼':'';}
 function swordPrice(rid,q){
   const r=R[rid];let p=r.price*QMULT[q];
   p*=(1+0.25*S.stars);
+  p*=repSellBonus();
+  p*=marketMult(rid);
   if(S.decor.tapestry)p*=1.10;
   if(S.museum[rid])p*=1.05;
   return Math.round(p);
 }
 function invCount(rid){const v=S.inv[rid];return v.n+v.b+v.r+v.e;}
 function invValue(rid){const v=S.inv[rid];let t=0;QORD.forEach(q=>{t+=v[q]*swordPrice(rid,q);});return t;}
-function rollQuality(){
-  const epic=0.05+S.luck*0.01;
-  const bad=S.stats.forged>=20?0.05:0;
-  const x=Math.random();
-  if(x<epic)return'e';
-  if(x<epic+0.20)return'r';
-  if(x<epic+0.20+bad)return'b';
-  return'n';
+/* ─── ПЛАВКА (v5.0): жар, зона металла, перегрев, чистота ─── */
+function meltBand(rid){return R[rid].melt;}
+function heatInBand(){const m=meltBand(S.curRecipe);return heat>=m.lo&&heat<=m.hi;}
+function heatOverheated(){const m=meltBand(S.curRecipe);return heat>m.hi+22;}
+function pumpPow(){return 15+S.bellows*2.5;}
+function heatDecayNow(){return Math.max(2.5,meltBand(S.curRecipe).dec-S.bellows*0.35);}
+function smeltFillRate(){return 0.32+S.crucible*0.06;}
+function smeltStartCost(){return R[S.curRecipe].ore;}
+/* ─── КАЧЕСТВО КОВКИ (v5.0): скилл игрока, не рандом ───
+   Старт шкалы = f(чистота слитка). Каждый удар: точный +, хороший +,
+   мимо −. Итог = старт + 6 × средняя цена удара → сорт меча. */
+function hitValue(m){
+  if(m>=3)return 10+2*S.mastery;
+  if(m===2)return 6+Math.ceil(S.mastery/2);
+  return -16;
+}
+function startQuality(rid){return Math.round(12+26*(S.ingotPurity[rid]!==undefined?S.ingotPurity[rid]:0.55));}
+function qualityEstimate(){
+  const q0=startQuality(S.curRecipe);
+  const avg=S.hitCnt>0?S.hitSum/S.hitCnt:0;
+  return Math.max(0,Math.min(100,Math.round(q0+QUAL_K*avg)));
+}
+function gradeFromQ(q){
+  const mercy=S.stats.forged<10;
+  if(q>=Q_E)return'e';
+  if(q>=Q_R)return'r';
+  if(q>=Q_N||mercy)return'n';
+  return'b';
+}
+function qualityColor(q){
+  if(q>=Q_E)return'#ffd76a';
+  if(q>=Q_R)return'#5fe8ff';
+  if(q>=Q_N)return'#ffb35c';
+  return'#ff5c4d';
+}
+function stageWork(){return Math.max(2,Math.ceil(R[S.curRecipe].work/3));}
+function newZoneCenter(prev){
+  const spots=[0.2,0.35,0.5,0.65,0.8];
+  let c=prev;let guard=0;
+  while(guard++<10){c=spots[Math.floor(Math.random()*spots.length)];if(Math.abs(c-prev)>0.12)break;}
+  return c;
 }
 function prestigeGain(){return Math.floor(Math.sqrt(S.runGold/100000));}
 function heroCost(n){return Math.round(50*Math.pow(1.55,n-1));}
 function veinYieldAt(l){return Math.max(2, Math.round(R[S.curRecipe].ore * 0.35 * (1 + l * 0.25)));}
 function veinYield(){return veinYieldAt(S.pick);}
+function orderSlots(){return S.repLvl>=6?4:S.repLvl>=2?3:2;}
+function repSellBonus(){return 1+0.04*(S.repLvl-1);}
 
 /* ═══════════════════ ЗВУК ═══════════════════ */
 let AC=null,master=null,noiseBuf=null;
@@ -1180,7 +1370,7 @@ const cv=$('forge'),cx=cv.getContext('2d');
 const bgCv=document.createElement('canvas'),bgCx=bgCv.getContext('2d');
 let W=0,H=0,DPR=1,floorY=0;
 let parts=[],walkers=[],heroNext=[];
-let shake=0,hammerT=1,flashA=0,autoAcc=0,uiAcc=0,emberAcc=0,smokeAcc=0,catZ=2,crackleT=2;
+let shake=0,hammerT=1,flashA=0,uiAcc=0,emberAcc=0,smokeAcc=0,catZ=2,crackleT=2;
 let lastAx=0,lastAy=0,lastFx=0,lastFy=0;
 let qtePos=0.5;
 let frenzyUntil=0;
@@ -1199,6 +1389,8 @@ function resize(){
 function rr(x,y,w,h,r){cx.beginPath();cx.moveTo(x+r,y);cx.arcTo(x+w,y,x+w,y+h,r);
   cx.arcTo(x+w,y+h,x,y+h,r);cx.arcTo(x,y+h,x,y,r);cx.arcTo(x,y,x+w,y,r);cx.closePath();}
 function anvilClient(){const rc=cv.getBoundingClientRect();return{x:rc.left+lastAx,y:rc.top+lastAy-46};}
+function furnaceClient(){const rc=cv.getBoundingClientRect();return{x:rc.left+lastFx,y:rc.top+lastFy-64};}
+function veinClient(){const rc=cv.getBoundingClientRect();return{x:rc.left+W*VEIN_X,y:rc.top+floorY-16};}
 function frenzyActive(){return performance.now()<frenzyUntil;}
 
 function buildBg(){
@@ -1349,9 +1541,23 @@ function tapMeteor(x,y){
       floatNum(`+${fmt(amt)} ⛏️`,cv.getBoundingClientRect().left+meteor.x,cv.getBoundingClientRect().top+meteor.y,'f-ore');
     }else{
       const r=R[S.curRecipe];
-      S.progress+=r.work*0.3;
-      floatNum('⚒️ +30%!',cv.getBoundingClientRect().left+meteor.x,cv.getBoundingClientRect().top+meteor.y,'f-item');
-      if(S.started&&S.progress>=r.work){forgeComplete(r.id);sparks(18,false);checkMilestones();}
+      const rc2=cv.getBoundingClientRect();
+      if(S.smelt){
+        S.smelt.fill=Math.min(1,S.smelt.fill+0.3);
+        floatNum('🏺 +30%!',rc2.left+meteor.x,rc2.top+meteor.y,'f-item');
+      }else if(S.started){
+        S.hitSum+=6;S.hitCnt++;S.progress+=r.work*0.15;
+        floatNum('⚒️ +15%!',rc2.left+meteor.x,rc2.top+meteor.y,'f-item');
+        if(S.progress>=stageWork()){
+          if(S.stage<3){S.stage++;S.progress=0;S.qteCenter=newZoneCenter(S.qteCenter);
+            toast(t('toastStage',{s:S.stage,n:t(STAGES[S.stage-1])}),'⚒️');}
+          else{forgeComplete(r.id,null);sparks(18,false);}
+        }
+      }else{
+        const amt=Math.max(6,Math.round(r.ore*0.5));
+        S.ore+=amt;
+        floatNum(`+${amt} ⛏️`,rc2.left+meteor.x,rc2.top+meteor.y,'f-ore');
+      }
     }
     sparks(20,true);sCoin(true);
     meteor=null;nextMeteorAt=performance.now()+METEOR_MIN+Math.random()*METEOR_VAR;
@@ -1396,12 +1602,9 @@ function tapVein(x,y){
 function tapFire(x,y){
   const fxp=W*0.16,fyp=H*0.68-16;
   const dx=x-fxp,dy=y-fyp;
-  if(dx*dx+dy*dy>48*48)return false;
-  heat=Math.min(HEAT_MAX,heat+HEAT_PUMP);
-  for(let i=0;i<4;i++)parts.push({x:fxp+(Math.random()*20-10),y:fyp-10,
-    vx:(Math.random()-0.5)*30,vy:-40-Math.random()*30,life:.5,max:.5,c:'255,150,60',s:2.5,g:-20});
-  parts.push({txt:'💨',x:fxp+16,y:fyp-26,vx:8,vy:-20,life:.6,max:.6,c:'200,200,220',fs:14,g:0});
-  sPump();return true;
+  if(dx*dx+dy*dy>52*52)return false;
+  pump();
+  return true;
 }
 function tapCat(x,y){
   const cxp=W*0.16+62,cyp=floorY-12;
@@ -1513,21 +1716,65 @@ function drawHeat(tm){
   cx.fillStyle='rgba(10,6,3,0.7)';rr(bx-2,by-2,bw+4,10,5);cx.fill();
   cx.fillStyle='#ff7a2f';rr(bx,by,bw*heat/HEAT_MAX,6,3);cx.fill();
   cx.font='700 10px Arial, sans-serif';cx.fillStyle='#ffb35c';
-  cx.fillText('🔥×'+heatMult().toFixed(1),fxp,by+16);
+  cx.fillText('🔥 '+Math.round(heat)+'°',fxp,by+16);
 }
 function drawQTE(tm){
   const r=R[S.curRecipe];
-  if(!S.started&&S.ore<r.ore)return;
+  if(!S.started)return;
   qtePos=0.5+0.5*Math.sin(tm*QTE_SPEED[r.id]);
   const bw=130,bx=lastAx-bw/2,by=lastAy-104;
-  const zw=QTE_ZONE[r.id]*bw,zx=lastAx-zw/2;
+  const zw=QTE_ZONE[r.id]*(S.stage>=3?0.85:1)*(frenzyActive()?1.4:1)*bw;
+  const zc=bx+S.qteCenter*bw;
   cx.fillStyle='rgba(10,6,3,0.75)';rr(bx-2,by-2,bw+4,12,6);cx.fill();
-  cx.fillStyle='rgba(255,200,90,0.35)';cx.fillRect(zx,by,zw,8);
-  cx.fillStyle='rgba(120,255,140,0.6)';cx.fillRect(lastAx-zw*0.2,by,zw*0.4,8);
+  cx.fillStyle='rgba(255,200,90,0.35)';cx.fillRect(zc-zw/2,by,zw,8);
+  cx.fillStyle='rgba(120,255,140,0.6)';cx.fillRect(zc-zw*0.2,by,zw*0.4,8);
   const mx=bx+qtePos*bw;
   cx.fillStyle=frenzyActive()?'#ff9a2e':'#fff';
   cx.fillRect(mx-2,by-4,4,16);
   cx.fillStyle='rgba(255,255,255,0.7)';cx.beginPath();cx.arc(mx,by-6,2.5,0,7);cx.fill();
+}
+/* ─── v5.0: тигель + термометр с зоной плавки текущего металла ─── */
+function drawSmelt(tm){
+  const fxp=W*0.16,fyp=H*0.68;
+  const m=meltBand(S.curRecipe);
+  const r=R[S.curRecipe];
+  const px=fxp+6,py=fyp-44;
+  cx.fillStyle='rgba(0,0,0,0.4)';cx.beginPath();cx.ellipse(px,py+16,19,5,0,0,7);cx.fill();
+  cx.fillStyle='#2b2b30';rr(px-15,py-12,30,26,4);cx.fill();
+  cx.strokeStyle='#4a4038';cx.lineWidth=2;rr(px-15,py-12,30,26,4);cx.stroke();
+  if(S.smelt){
+    const fh=20*Math.min(1,S.smelt.fill);
+    cx.globalAlpha=0.85;cx.fillStyle=r.color;
+    rr(px-12,py+10-fh,24,fh,3);cx.fill();cx.globalAlpha=1;
+    if(heatOverheated()){
+      cx.font='700 11px Arial, sans-serif';cx.fillStyle='#ff6a4d';
+      cx.fillText('!',px,py-20);
+    }
+  }
+  const gx=fxp+64,gy0=fyp-84,gh=92,gw=11;
+  cx.fillStyle='rgba(10,6,3,0.72)';rr(gx-2,gy0-2,gw+4,gh+4,5);cx.fill();
+  const t2y=v=>gy0+gh-(Math.max(0,Math.min(110,v))/110)*gh;
+  cx.fillStyle='rgba(255,70,50,0.30)';cx.fillRect(gx,t2y(m.hi+22),gw,t2y(m.hi)-t2y(m.hi+22));
+  cx.fillStyle='rgba(120,255,140,0.38)';cx.fillRect(gx,t2y(m.hi),gw,t2y(m.lo)-t2y(m.hi));
+  const ny=t2y(heat);
+  cx.fillStyle=heatOverheated()?'#ff4c3a':(heatInBand()?'#7dff8a':'#ffb35c');
+  cx.fillRect(gx,ny-2,gw,4);
+  cx.font='700 10px Arial, sans-serif';cx.fillStyle='#c89b6a';
+  cx.fillText(Math.round(heat)+'°',gx+gw/2,gy0-8);
+}
+/* ─── v5.0: пипы этапов ковки над наковальней ─── */
+function drawStages(){
+  if(!S.started)return;
+  const ax=lastAx,ay=floorY;
+  for(let i=0;i<3;i++){
+    const x=ax-24+i*24,y=ay-126;
+    cx.save();cx.translate(x,y);cx.rotate(Math.PI/4);
+    if(i<S.stage-1){cx.fillStyle='rgba(255,215,106,0.95)';cx.fillRect(-5,-5,10,10);}
+    else if(i===S.stage-1){cx.fillStyle='rgba(255,170,60,0.95)';cx.fillRect(-6,-6,12,12);
+      cx.strokeStyle='rgba(255,255,255,0.85)';cx.lineWidth=1.5;cx.strokeRect(-6,-6,12,12);}
+    else{cx.strokeStyle='rgba(240,220,180,0.4)';cx.lineWidth=1.5;cx.strokeRect(-5,-5,10,10);}
+    cx.restore();
+  }
 }
 function drawMeteor(tm){
   if(!meteor)return;
@@ -1595,7 +1842,7 @@ function draw(tm,fdt){
     cx.closePath();cx.fill();
   }
   cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
-  drawHeat(tm);
+  drawHeat(tm);drawSmelt(tm);
 
   const beamY=H*0.055+13;
   const swing=Math.sin(tm*0.85)*0.07;
@@ -1617,16 +1864,17 @@ function draw(tm,fdt){
   drawAnvil(ax,ay);
   const r=R[S.curRecipe];
   if(S.started){
-    const p=Math.min(1,S.progress/r.work);
+    const p=Math.min(1,S.progress/stageWork());
+    const qc=qualityColor(qualityEstimate());
     const gg=cx.createRadialGradient(ax-4,ay-44,2,ax-4,ay-44,38);
-    gg.addColorStop(0,hexA(r.color,0.18+0.4*p));gg.addColorStop(1,'rgba(0,0,0,0)');
+    gg.addColorStop(0,hexA(qc,0.18+0.4*p));gg.addColorStop(1,'rgba(0,0,0,0)');
     cx.fillStyle=gg;cx.fillRect(ax-48,ay-88,88,88);
     cx.save();cx.translate(ax-4,ay-44);cx.rotate(-0.55+Math.sin(tm*3)*0.04);
-    cx.globalAlpha=0.5+0.5*p;cx.shadowColor=r.color;cx.shadowBlur=4+16*p;
+    cx.globalAlpha=0.5+0.5*p;cx.shadowColor=qc;cx.shadowBlur=4+16*p;
     cx.font='26px serif';
     cx.fillText(r.icon,0,0);cx.restore();
   }
-  drawQTE(tm);
+  drawQTE(tm);drawStages();
 
   hammerT=Math.min(1,hammerT+fdt/(frenzyActive()?0.18:0.32));
   const hx=ax+58,hy=ay-64;let ang;
@@ -1725,9 +1973,12 @@ function draw(tm,fdt){
 let combo=0,lastStrike=0,EVT=null,evtBar=null,evtBtn=null;
 const strikeBtn=$('strikeBtn');
 
-function forgeComplete(rid){
-  S.progress=0;S.started=false;
-  const q=rollQuality();
+/* ─── Итог ковки: сорт по шкале качества (или принудительный сорт
+   для подмастерья/оффлайна). Обнуляет сессию ковки ─── */
+function forgeComplete(rid,forced){
+  /* сорт считаем ДО сброса сессии: qualityEstimate читает hitSum/hitCnt */
+  const q=forced||gradeFromQ(qualityEstimate());
+  S.progress=0;S.started=false;S.stage=1;S.hitSum=0;S.hitCnt=0;
   S.inv[rid][q]++;
   S.stats.forged++;
   if(q==='r'||q==='e')S.stats.rareForged++;
@@ -1736,25 +1987,63 @@ function forgeComplete(rid){
   }
   return q;
 }
-function applyStrikes(n){
-  const r=R[S.curRecipe];let forged=0,guard=0,epics=0;
-  while(n>=1&&guard<2000000){
-    guard++;n--;
-    if(!S.started){if(S.ore<r.ore)break;S.ore-=r.ore;S.started=true;}
-    const crit=Math.random()<critChance();
-    S.progress+=(1+S.power)*(crit?5:1);
-    S.stats.strikes++;
-    if(S.progress>=r.work){const q=forgeComplete(r.id);forged++;if(q==='e')epics++;}
-  }
-  return{forged,epics};
+/* ─── ПЛАВКА: тигель заполняется только в зоне плавки металла ─── */
+function startSmelt(){
+  if(S.smelt)return;
+  const cost=smeltStartCost();
+  if(S.ore<cost){sErr();toastThrottle(t('toastNoOre'),'⚠️');shakeEl($('forgeWrap'));return;}
+  S.ore-=cost;S.smelt={fill:0,purity:1};
+  sPump();ui();
 }
-function qteMult(){
-  const r=R[S.curRecipe];
-  const zoneHalf=QTE_ZONE[r.id]/2;
-  const d=Math.abs(qtePos-0.5);
-  if(d<zoneHalf*0.4)return{m:3};
-  if(d<zoneHalf)return{m:2};
-  return{m:1};
+function pump(){
+  heat=Math.min(HEAT_MAX,heat+pumpPow());
+  const fxp=W*0.16,fyp=H*0.68-16;
+  for(let i=0;i<4;i++)parts.push({x:fxp+(Math.random()*20-10),y:fyp-10,
+    vx:(Math.random()-0.5)*30,vy:-40-Math.random()*30,life:.5,max:.5,c:'255,150,60',s:2.5,g:-20});
+  parts.push({txt:'💨',x:fxp+16,y:fyp-26,vx:8,vy:-20,life:.6,max:.6,c:'200,200,220',fs:14,g:0});
+  sPump();
+}
+function smeltTick(dt){
+  if(!S.smelt)return;
+  const sm=S.smelt;
+  const inB=heatInBand(),over=heatOverheated();
+  if(over){
+    sm.fill=Math.max(0,sm.fill-0.22*dt);
+    sm.purity=Math.max(0,sm.purity-0.10*dt);
+    toastThrottle(t('toastOverheat'),'🔥');
+  }else if(inB){
+    sm.purity=Math.min(1,sm.purity+0.12*dt);
+    sm.fill+=smeltFillRate()*dt;
+  }else{
+    sm.purity=Math.max(0,sm.purity-0.06*dt);
+    sm.fill+=smeltFillRate()*0.15*dt;
+  }
+  if(sm.fill>=1){
+    const rid=S.curRecipe,p=sm.purity;
+    S.ingots[rid]=(S.ingots[rid]||0)+1;
+    /* чистота металла = скользящее среднее последних плавок (скилл) */
+    S.ingotPurity[rid]=Math.round(((S.ingotPurity[rid]||0.55)*0.7+p*0.3)*100)/100;
+    S.smelt=null;S.stats.ingots=(S.stats.ingots||0)+1;
+    toast(t('toastIngot',{n:rName(R[rid]),p:Math.round(S.ingotPurity[rid]*100)}),'🧱');
+    floatAt(furnaceClient(),'+1 🧱','f-item');sForge();
+    checkMilestones();ui();
+  }
+}
+/* ─── КОВКА: 1 слиток → 3 этапа → сорт по качеству ─── */
+function startForge(){
+  if(S.started)return;
+  const rid=S.curRecipe;
+  if((S.ingots[rid]||0)<1){sErr();toastThrottle(t('toastNoIngot'),'⚠️');return;}
+  S.ingots[rid]--;
+  S.started=true;S.stage=1;S.progress=0;S.hitSum=0;S.hitCnt=0;S.qteCenter=0.5;
+  sForge();ui();
+}
+/* Контекстное действие главной кнопки: удар / мехи / ковать / плавить */
+function mainAction(){
+  if(S.started)doStrike();
+  else if(S.smelt)pump();
+  else if((S.ingots[S.curRecipe]||0)>0)startForge();
+  else startSmelt();
 }
 function startFrenzy(){
   frenzyUntil=performance.now()+15000;
@@ -1762,12 +2051,19 @@ function startFrenzy(){
   sFanfare();$('forgeWrap').classList.add('frenzy');
   setTimeout(()=>{if(!frenzyActive())$('forgeWrap').classList.remove('frenzy');},15100);
 }
-function doStrike(){
+/* Зона удара: центр смещается по этапам, у дорогих металлов уже,
+   в Ражу — шире. Точный удар = центр зоны (×3), хороший = зона (×2) */
+function qteMult(){
   const r=R[S.curRecipe];
-  if(!S.started){
-    if(S.ore<r.ore){sErr();toastThrottle(t('toastNoOre'),'⚠️');shakeEl($('forgeWrap'));return;}
-    S.ore-=r.ore;S.started=true;
-  }
+  const zh=(QTE_ZONE[r.id]*(S.stage>=3?0.85:1))*(frenzyActive()?1.4:1)/2;
+  const d=Math.abs(qtePos-S.qteCenter);
+  if(d<zh*0.4)return{m:3};
+  if(d<zh)return{m:2};
+  return{m:1};
+}
+function doStrike(){
+  if(!S.started){startForge();if(!S.started)return;}
+  const r=R[S.curRecipe];
   const now=performance.now();
   combo=(now-lastStrike<450)?combo+1:1;lastStrike=now;
   if(combo>S.bestCombo)S.bestCombo=combo;
@@ -1775,25 +2071,65 @@ function doStrike(){
   const qm=qteMult();
   const isFrenzy=frenzyActive();
   const crit=isFrenzy||Math.random()<critChance();
-  const mult=qm.m*(1+Math.min(combo,50)*0.01)*(crit?5:1);
-  S.progress+=(1+S.power)*mult;
+  S.progress+=(1+S.power)*(crit?5:1)*(1+Math.min(combo,50)*0.01);
   S.stats.strikes++;
+  const hv=hitValue(qm.m);
+  S.hitSum+=hv;S.hitCnt++;
   hammerT=0;shake=crit?1:0.45;flashA=crit?0.5:0.28;
   sparks(crit?16:7,crit);
   parts.push({ring:true,x:lastAx-4,y:lastAy-36,r:6,vr:150,life:.32,max:.32,c:'255,200,130'});
   sClang(crit,combo);
   strikeBtn.classList.remove('hit');void strikeBtn.offsetWidth;strikeBtn.classList.add('hit');
-  if(qm.m>=2)floatAt(anvilClient(),qm.m===3?t('toastPerfect'):t('toastGood'),qm.m===3?'f-crit':'f-item');
+  if(qm.m===3)floatAt(anvilClient(),t('toastHit3')+'+'+hv,'f-crit');
+  else if(qm.m===2)floatAt(anvilClient(),t('toastHit2')+'+'+hv,'f-item');
+  else floatAt(anvilClient(),t('toastMiss')+'16','f-spend');
   if(crit&&!isFrenzy)floatAt(anvilClient(),t('toastCrit'),'f-crit');
   updateComboUI();
-  if(S.progress>=r.work){
-    const q=forgeComplete(r.id);
-    sForge();sparks(18,false);
-    floatAt(anvilClient(),`+1 ${r.icon}${QICON(q)?' '+QICON(q):''}`,q==='e'?'f-crit':'f-item');
-    if(q==='e'){confetti();sFanfare();}
-    checkMilestones();
+  if(S.progress>=stageWork()){
+    if(S.stage<3){
+      S.stage++;S.progress=0;S.qteCenter=newZoneCenter(S.qteCenter);
+      sForge();
+      toast(t('toastStage',{s:S.stage,n:t(STAGES[S.stage-1])}),'⚒️');
+    }else{
+      const q=forgeComplete(r.id,null);
+      sForge();sparks(18,false);
+      floatAt(anvilClient(),`+1 ${r.icon}${QICON(q)?' '+QICON(q):''}`,q==='e'?'f-crit':'f-item');
+      if(q==='e'){confetti();sFanfare();}
+      if(q==='b')toast(t('toastBrak'),'💔');
+      checkMilestones();
+    }
   }
   ui();
+}
+/* ─── ПОДМАСТЕРЬЕ (вместо Авто-Молота): сам плавит и куёт
+   обычные мечи из руды. Шедевры — только ручная работа ─── */
+let apprAcc=0;
+function apprenticeTick(dt){
+  if(S.apprentice<1)return;
+  const r=R[S.curRecipe];
+  apprAcc+=apprenticeRate()*dt;
+  let guard=0;
+  while(apprAcc>=1&&guard++<50){
+    apprAcc-=1;
+    if(S.ore<r.ore){apprAcc=0;break;}
+    S.ore-=r.ore;
+    forgeComplete(r.id,'n');
+    if(!document.hidden){hammerT=0;sparks(3,false);
+      floatAt(anvilClient(),`+1 ${r.icon}`,'f-item');}
+  }
+}
+/* ─── РЫНОК: каждые 90 с цены металлов плывут в пределах 0.75–1.35 ─── */
+function marketTick(dt){
+  if(!S.market||!S.market.m)S.market={m:{bronze:1,iron:1,mithril:1,dragon:1},cd:90};
+  S.market.cd-=dt;
+  if(S.market.cd<=0){
+    S.market.cd=90;
+    RECIPES.forEach(r=>{
+      const cur=marketMult(r.id);
+      S.market.m[r.id]=Math.max(0.75,Math.min(1.35,cur*(0.9+Math.random()*0.24)));
+    });
+    ui();
+  }
 }
 function updateComboUI(){
   const el=$('comboBadge');
@@ -1812,7 +2148,7 @@ function spawnEvent(){
   EVT={tier:r.id,royal,
     name:royal?t('royal'):buyers[Math.floor(Math.random()*buyers.length)],
     emoji:royal?'🤴':BUYER_EMO[Math.floor(Math.random()*BUYER_EMO.length)],
-    price:Math.round(r.price*mult/5)*5,mult,t:30,max:30};
+    price:Math.round(r.price*mult*repSellBonus()/5)*5,mult,t:30,max:30};
   renderEvent();sFanfare();
   if(royal)toast(t('toastBuyer'),'👑');
 }
@@ -1843,7 +2179,7 @@ function sellEvent(){
 
 const MILES=[
   ['m_sale',()=>S.stats.sold>=1,'mileSale'],
-  ['m_auto',()=>S.auto>=1,'mileAuto'],
+  ['m_auto',()=>S.apprentice>=1,'mileAuto'],
   ['m_f10',()=>S.stats.forged>=10,'mileF10'],
   ['m_f100',()=>S.stats.forged>=100,'mileF100'],
   ['m_g1k',()=>S.stats.gold>=1000,'mileG1k'],
@@ -1853,6 +2189,7 @@ const MILES=[
   ['m_epic',()=>S.stats.epicForged>=1,'mileEpic'],
   ['m_star',()=>S.stars>=1,'mileStar'],
   ['m_mined',()=>(S.stats.mined||0)>=10,'mileMined'],
+  ['m_order',()=>(S.stats.orders||0)>=1,'mileOrder'],
 ];
 function checkMilestones(){
   MILES.forEach(m=>{if(!S.flags[m[0]]&&m[1]()){S.flags[m[0]]=1;toast(t(m[2]),'🏆');sFanfare();}});
@@ -1929,13 +2266,136 @@ function expCheck(){
   }
 }
 
+/* ══════════ ЗАКАЗЫ ГИЛЬДИИ (v4.0 — кор-механика цикла) ══════════
+   Гость заказывает меч нужного качества. Успей до дедлайна:
+   золото ×2–5 от рыночной цены + репутация 🎖. Просрочка = −2 🎖,
+   отказ = кулдаун слота. С уровнями репутации — новые слоты,
+   шедевральные и королевские заказы */
+function genOrder(){
+  const unlocked=RECIPES.filter(r=>S.unlocked[r.id]);
+  const pool=[];unlocked.forEach(r=>{for(let i=0;i<5-r.tier;i++)pool.push(r);});
+  const r=pool[Math.floor(Math.random()*pool.length)]||unlocked[0];
+  const roll=Math.random();
+  let minQ='n';
+  if(S.repLvl>=3&&roll<0.16)minQ='e';
+  else if(S.repLvl>=2&&roll<0.45)minQ='r';
+  const royal=S.repLvl>=4&&Math.random()<0.12;
+  const mult=royal?5:2.3+Math.random()*1.2;
+  const gold=Math.max(15,Math.round(swordPrice(r.id,minQ)*mult/5)*5);
+  const rep=(royal?4:0)+1+r.tier+(minQ==='e'?3:minQ==='r'?1:0);
+  const dur=(r.tier>=3?160:110)+Math.round(Math.random()*60);
+  const buyers=t('buyers');
+  return{rid:r.id,minQ,gold,rep,dur,end:Date.now()+dur*1000,royal,
+    name:royal?t('royal'):buyers[Math.floor(Math.random()*buyers.length)],
+    emoji:royal?'🤴':BUYER_EMO[Math.floor(Math.random()*BUYER_EMO.length)]};
+}
+function pickOrderItem(rid,minQ){
+  const inv=S.inv[rid];const start=minQ==='e'?3:minQ==='r'?2:1;
+  for(let i=start;i<QORD.length;i++){const q=QORD[i];if(inv[q]>0)return q;}
+  return null;
+}
+function repAdd(n){
+  if(n>0){
+    S.rep+=n;let ups=0;const perks=[];
+    while(S.rep>=repNeed(S.repLvl)&&S.repLvl<99){
+      S.rep-=repNeed(S.repLvl);S.repLvl++;ups++;
+      const p=REP_PERKS[S.repLvl];if(p)perks.push(t(p));
+    }
+    if(ups){toast(t('toastRepUp',{n:S.repLvl})+(perks.length?' '+perks.join(' '):''),'🎖');
+      sFanfare();confetti();renderOrders();}
+    ui();
+  }else S.rep=Math.max(0,S.rep+n);
+}
+function fulfillOrder(i,ev){
+  const o=S.orders[i];if(!o)return;
+  const q=pickOrderItem(o.rid,o.minQ);
+  if(!q){sErr();toastThrottle(t('toastNoSword'),'⚠️');return;}
+  S.inv[o.rid][q]--;
+  gainGold(o.gold);S.stats.sold++;S.stats.orders=(S.stats.orders||0)+1;
+  if(q==='e'&&o.minQ!=='e'){
+    const b=Math.round(o.gold*0.5);gainGold(b);
+    if(ev&&ev.currentTarget)floatAt(rectOf(ev.currentTarget),'⭐ +50%','f-crit');
+  }
+  repAdd(o.rep);
+  S.orders[i]=null;S.orderCd[i]=12+Math.random()*15;
+  sCoin(true);confetti();
+  if(ev&&ev.currentTarget)flyCoins(ev.currentTarget,7);
+  toast(t('toastOrderDone',{n:o.name,g:fmt(o.gold),r:o.rep}),'🤝');
+  checkMilestones();renderOrders();save();ui();
+}
+function declineOrder(i){
+  if(!S.orders[i])return;
+  S.orders[i]=null;S.orderCd[i]=18;
+  toast(t('toastOrderDecl'),'✖️');
+  renderOrders();save();ui();
+}
+function ensureOrders(){
+  const slots=orderSlots();
+  if(!Array.isArray(S.orders))S.orders=[];
+  while(S.orders.length<slots)S.orders.push(null);
+  S.orders.length=slots;
+  if(!Array.isArray(S.orderCd)||S.orderCd.length<4)S.orderCd=[10,26,42,58];
+  const now=Date.now();
+  S.orders.forEach((o,i)=>{if(o&&now>o.end)S.orders[i]=null;});
+}
+function tickOrders(dt){
+  const now=Date.now();let changed=false;
+  for(let i=0;i<orderSlots();i++){
+    const o=S.orders[i];
+    if(o){
+      if(now>o.end){S.orders[i]=null;S.orderCd[i]=14;repAdd(-2);
+        toast(t('toastOrderExpired'),'⌛');sErr();changed=true;}
+    }else{
+      S.orderCd[i]=(typeof S.orderCd[i]==='number'?S.orderCd[i]:20)-dt;
+      if(S.orderCd[i]<=0){S.orders[i]=genOrder();S.orderCd[i]=0;changed=true;}
+    }
+  }
+  if(changed)renderOrders();
+}
+function renderOrders(){
+  const wrap=$('ordersWrap');if(!wrap)return;
+  wrap.innerHTML='';orderRefs=[];
+  for(let i=0;i<orderSlots();i++){
+    const o=S.orders[i];
+    const el=document.createElement('div');
+    if(o){
+      const r=R[o.rid];
+      const q=o.minQ==='e'?t('qMinE'):o.minQ==='r'?t('qMinR'):t('qMinN');
+      el.className='order'+(o.royal?' royal':'');
+      el.innerHTML=`<span class="evt-emoji">${o.emoji}</span>
+        <div class="evt-info"><b>${o.royal?'👑 ':''}${o.name}</b>
+          <span class="o-req">${t('orderNeed',{i:r.icon,n:rName(r),q:q})}</span>
+          <span class="o-reward">🪙 ${fmt(o.gold)} · 🎖 +${o.rep}${o.minQ!=='e'?' · ⭐ ×1.5':''}</span></div>
+        <div class="o-btns"><button class="btn small gold o-go">${t('orderDo')}</button><button class="btn small o-x">✕</button></div>
+        <div class="o-timer"></div>`;
+      const go=el.querySelector('.o-go'),xx=el.querySelector('.o-x');
+      go.addEventListener('click',e=>fulfillOrder(i,e));
+      xx.addEventListener('click',()=>declineOrder(i));
+      orderRefs.push({el,bar:el.querySelector('.o-timer'),go});
+    }else{
+      el.className='order empty';
+      el.innerHTML=`<span class="evt-emoji">🕯️</span>
+        <div class="evt-info"><b>${t('orderSoon')}</b><span class="o-cd"></span></div>`;
+      orderRefs.push({el,cd:el.querySelector('.o-cd')});
+    }
+    wrap.appendChild(el);
+  }
+}
+
 function buyWhet(btn){
   if(S.shards<1){sErr();toastThrottle(t('toastNoShards'));return;}
-  S.shards--;const r=R[S.curRecipe];
-  if(!S.started){if(S.ore<r.ore){S.shards++;sErr();toastThrottle(t('toastStartCraft'));return;}S.ore-=r.ore;S.started=true;}
-  S.progress+=r.work*0.25;sBuy();
-  floatAt(rectOf(btn),'⚒️ +25%','f-item');
-  if(S.progress>=r.work){forgeComplete(r.id);sparks(14,false);checkMilestones();}
+  if(S.started){
+    /* оселок во время ковки = виртуальный хороший удар (+6 качества) */
+    S.shards--;S.hitSum+=6;S.hitCnt++;
+    sBuy();floatAt(rectOf(btn),'⚒️ +6 ✨','f-item');
+    if(S.progress>=stageWork()){
+      if(S.stage<3){S.stage++;S.progress=0;S.qteCenter=newZoneCenter(S.qteCenter);}
+      else{forgeComplete(S.curRecipe,null);sparks(14,false);checkMilestones();}
+    }
+  }else if(S.smelt){
+    S.shards--;S.smelt.purity=Math.min(1,S.smelt.purity+0.25);
+    sBuy();floatAt(rectOf(btn),'✨ +25%','f-item');
+  }else{sErr();toastThrottle(t('toastStartCraft'));return;}
   ui();
 }
 function buyOrePack(btn){
@@ -1959,16 +2419,22 @@ function doPrestige(){
   S.stars+=g;
   S.gold=20;S.ore=30;S.shards=0;S.runGold=0;
   RECIPES.forEach(r=>{S.inv[r.id]=emptyInv();});
+  S.ingots=emptyIngots();
+  S.ingotPurity={bronze:.55,iron:.55,mithril:.55,dragon:.55};
+  S.smelt=null;S.stage=1;S.hitSum=0;S.hitCnt=0;S.qteCenter=0.5;heat=0;
+  S.market={m:{bronze:1,iron:1,mithril:1,dragon:1},cd:90};
   S.unlocked={bronze:true,iron:false,mithril:false,dragon:false};
   S.dUnlocked={copper:true,iron:false,mithril:false,dragon:false};
   S.equipped={bronze:0,iron:0,mithril:0,dragon:0};
   S.museum={bronze:false,iron:false,mithril:false,dragon:false};
   S.decor={tapestry:false,goldenAnvil:false,cat2:false};
   S.exp=null;
+  S.orders=(S.orders&&typeof S.orders.map==='function')?S.orders.map(()=>null):null;S.orderCd=[10,26,42,58];
   S.activeDungeon='copper';S.curRecipe='bronze';S.progress=0;S.started=false;
-  S.power=0;S.auto=0;S.pick=0;S.luck=0;S.heroes=1;
+  S.bellows=0;S.crucible=0;S.power=0;S.mastery=0;S.pick=0;S.luck=0;S.apprentice=0;S.heroes=1;
+  apprAcc=0;
   EVT=null;$('eventSlot').innerHTML='';S.evtCd=15;
-  buildChips();buildInv();buildShop();
+  ensureOrders();buildChips();buildInv();buildShop();renderOrders();
   save();
   toast(t('toastLegend',{g:g,t:S.stars}),'⭐');
   sFanfare();confetti();
@@ -1980,19 +2446,14 @@ function logic(dt){
   const now=performance.now();
   S.ore+=currentOreRate()*dt;
   veinCharges=Math.min(VEIN_MAX,veinCharges+VEIN_REGEN*dt);
-  heat=Math.max(0,heat-HEAT_DECAY*dt);
-  if(autoRate()>0){
-    autoAcc+=autoRate()*dt;const w=Math.floor(autoAcc);
-    if(w>0){autoAcc-=w;const res=applyStrikes(w);
-      if(res.forged>0&&!document.hidden){
-        const r=R[S.curRecipe];hammerT=0;sparks(4,false);sForge();
-        floatAt(anvilClient(),`+${fmt(res.forged)} ${r.icon}${res.epics?' ⭐':''}`,res.epics?'f-crit':'f-item');
-        checkMilestones();
-      }}
-  }
+  heat=Math.max(0,heat-heatDecayNow()*dt);
+  smeltTick(dt);
+  apprenticeTick(dt);
+  marketTick(dt);
   if(EVT){EVT.t-=dt;
     if(EVT.t<=0){EVT=null;$('eventSlot').innerHTML='';toast(t('toastBuyerLeft'));S.evtCd=25+Math.random()*30;}}
   else{S.evtCd-=dt;if(S.evtCd<=0)spawnEvent();}
+  tickOrders(dt);
   if(combo>0&&now-lastStrike>650){combo=0;$('comboBadge').classList.remove('on');}
   S.stats.time+=Math.min(dt,2);
   crackleT-=dt;
@@ -2014,10 +2475,11 @@ function frame(ts){
 }
 
 const goldEl=$('goldVal'),oreEl=$('oreVal'),shardEl=$('shardVal'),progFill=$('progFill'),progLabel=$('progLabel'),
+      qualFill=$('qualFill'),
       infoStrip=$('infoStrip'),invWrap=$('invList'),chipsWrap=$('recipeChips'),shopList=$('shopList'),
       rateNote=$('rateNote'),starNote=$('starNote'),dailyWrap=$('dailyWrap'),expWrap=$('expWrap');
 const invRefs={},shopUpgRefs={},shopDunRefs={},shopRecRefs={},shardRecRefs={};
-let heroRefs=null,decorRefs={},prestigeRefs=null,dailyRefs=[],expRefs=null;
+let heroRefs=null,decorRefs={},prestigeRefs=null,dailyRefs=[],expRefs=null,orderRefs=[];
 
 function buildChips(){
   chipsWrap.innerHTML='';
@@ -2038,8 +2500,13 @@ function chipClick(r){
 }
 function selectRecipe(id){
   if(S.curRecipe===id)return;
-  if(S.started){S.ore+=R[S.curRecipe].ore;S.progress=0;S.started=false;toast(t('toastReset'));}
-  S.curRecipe=id;buildChips();ui();
+  if(S.started){
+    S.ingots[S.curRecipe]=(S.ingots[S.curRecipe]||0)+1;
+    S.progress=0;S.started=false;S.stage=1;S.hitSum=0;S.hitCnt=0;
+    toast(t('toastForgeCancel'));
+  }
+  if(S.smelt){S.ore+=smeltStartCost();S.smelt=null;toast(t('toastSmeltCancel'));}
+  S.curRecipe=id;S.qteCenter=0.5;heat=0;buildChips();ui();
 }
 function unlockRecipe(id){
   const r=R[id];if(S.unlocked[id])return;
@@ -2059,22 +2526,34 @@ function buildInv(){
     card.style.flexWrap='wrap';i++;
     card.innerHTML=`
       <span class="inv-ico glow-${r.tier}">${emojiToSvg(r.icon,r.color)}</span>
-      <div class="inv-info"><b>${rName(r)}</b><span>${t('price',{p:fmt(swordPrice(r.id,'n'))})}</span><span class="qline"></span></div>
+      <div class="inv-info"><b>${rName(r)}</b><span>${t('price',{p:fmt(swordPrice(r.id,'n'))})}<span class="mk"></span></span><span class="qline"></span></div>
       <div class="inv-count">×0</div>
       <div class="inv-btns"><button class="btn small">${t('sell')}</button><button class="btn small gold">${t('sellAll')}</button></div>
-      <div class="equip-row" style="width:100%"><span class="equip-note"></span><button class="btn small">${t('equip')}</button></div>`;
+      <div class="equip-row" style="width:100%"><span class="equip-note"></span><button class="btn small rm">${t('resmelt',{n:0})}</button><button class="btn small">${t('equip')}</button></div>`;
     const btns=card.querySelectorAll('button');
     btns[0].addEventListener('click',e=>sellOne(r.id,e));
     btns[1].addEventListener('click',e=>sellAll(r.id,e));
-    btns[2].addEventListener('click',e=>equipSword(r.id,e));
-    invRefs[r.id]={count:card.querySelector('.inv-count'),qline:card.querySelector('.qline'),
-      b1:btns[0],ba:btns[1],be:btns[2],enote:card.querySelector('.equip-note')};
+    btns[2].addEventListener('click',e=>reSmelt(r.id,e));
+    btns[3].addEventListener('click',e=>equipSword(r.id,e));
+    invRefs[r.id]={count:card.querySelector('.inv-count'),qline:card.querySelector('.qline'),mk:card.querySelector('.mk'),
+      b1:btns[0],ba:btns[1],br:btns[2],be:btns[3],enote:card.querySelector('.equip-note')};
     invWrap.appendChild(card);
   });
 }
+/* ─── Переплавка брака (v5.0): брак → 40% руды ─── */
+function reSmelt(rid,ev){
+  const inv=S.inv[rid];
+  if(inv.b<1){sErr();return;}
+  const back=Math.round(R[rid].ore*0.4);
+  inv.b--;S.ore+=back;S.stats.resmelt=(S.stats.resmelt||0)+1;
+  sBuy();
+  if(ev&&ev.currentTarget)floatAt(rectOf(ev.currentTarget),`+${back} ⛏️`,'f-ore');
+  toast(t('toastResmelt',{c:back}),'♻️');
+  ui();
+}
 function sellOne(rid,ev){
   const inv=S.inv[rid];let q=null;
-  for(const k of QORD){if(inv[k]>0){q=k;break;}}
+  for(const k of['b','n','r','e']){if(inv[k]>0){q=k;break;}}
   if(!q){sErr();return;}
   inv[q]--;const val=swordPrice(rid,q);
   gainGold(val);S.stats.sold++;
@@ -2276,23 +2755,69 @@ function ui(){
   if(oreEl.__v!==o){oreEl.__v=o;oreEl.textContent=fmt(o);}
   if(shardEl.__v!==S.shards){shardEl.__v=S.shards;shardEl.textContent=fmt(S.shards);}
   setTxt(starNote,S.stars>0?`⭐ ${S.stars}`:'');
+  setTxt($('repVal'),String(S.repLvl));
+  setTxt($('ingotVal'),fmt(S.ingots[S.curRecipe]||0));
   $('plank').classList.toggle('legendary',S.stars>0);
-  setTxt(rateNote,S.exp?t('rateRaid'):t('rateOre',{v:fmt(currentOreRate())})+(heat>0?' 🔥':''));
+  setTxt(rateNote,S.exp?t('rateRaid'):t('rateOre',{v:fmt(currentOreRate())}));
 
   const r=R[S.curRecipe];
-  const pct=S.started?Math.min(100,S.progress/r.work*100):0;
-  progFill.style.width=pct+'%';
+  const ing=S.ingots[S.curRecipe]||0;
+  /* Прогресс: тигель при плавке, этап при ковке */
+  if(S.started){
+    progFill.style.width=Math.min(100,S.progress/stageWork()*100)+'%';
+    setTxt(progLabel,t('prog',{i:r.icon,n:rName(r),c:Math.floor(Math.min(S.progress,stageWork())),w:stageWork()}));
+  }else if(S.smelt){
+    progFill.style.width=Math.min(100,S.smelt.fill*100)+'%';
+    setTxt(progLabel,`🏺 ${Math.round(S.smelt.fill*100)}%`);
+  }else{
+    progFill.style.width='0%';
+    setTxt(progLabel,t('progNeed',{i:r.icon,n:rName(r),v:smeltStartCost()}));
+  }
   if(progFill.__c!==r.id){progFill.__c=r.id;
     progFill.style.background=`linear-gradient(90deg,${hexA(r.color,0.55)},${r.color},#ffe9b0)`;}
-  setTxt(progLabel,S.started
-    ?t('prog',{i:r.icon,n:rName(r),c:Math.floor(Math.min(S.progress,r.work)),w:r.work})
-    :t('progNeed',{i:r.icon,n:rName(r),v:r.ore}));
-  setTxt(infoStrip,t('info',{v:veinYield(),p:1+S.power,a:fmt(autoRate()),l:Math.round(critChance()*100)}));
+
+  /* Шкала качества: живая при ковке, стартовая — как превью */
+  const qEst=S.started?qualityEstimate():startQuality(S.curRecipe);
+  qualFill.style.width=qEst+'%';
+  setTxt(qualLabel,S.started
+    ?`${t('qual',{q:qEst})} ${QICON(gradeFromQ(qEst))}`
+    :`${t('qual',{q:qEst})} · ${t('purity',{p:Math.round((S.ingotPurity[S.curRecipe]||0.55)*100)})}`);
+
+  setTxt($('stageStrip'),S.started?t('stage',{s:S.stage,n:t(STAGES[S.stage-1])}):'');
+
+  /* Кнопки-действия: плавка / ковка */
+  const smeltBtn=$('smeltBtn'),forgeBtn=$('forgeBtn');
+  if(S.smelt){setTxt(smeltBtn,t('btnSmelting'));smeltBtn.classList.add('cant');}
+  else{setTxt(smeltBtn,t('btnSmelt',{c:fmt(smeltStartCost())}));
+    smeltBtn.classList.toggle('cant',S.ore<smeltStartCost());}
+  if(S.started){setTxt(forgeBtn,t('btnForging',{s:S.stage}));forgeBtn.classList.add('cant');}
+  else{setTxt(forgeBtn,t('btnForge',{n:fmt(ing)}));forgeBtn.classList.toggle('cant',ing<1);}
+
+  /* Главная кнопка — контекстная: удар / мехи / ковать / плавить */
+  if(S.started)setTxt(strikeBtn,t('strike'));
+  else if(S.smelt)setTxt(strikeBtn,t('btnPump'));
+  else if(ing>0)setTxt(strikeBtn,t('btnForge',{n:fmt(ing)}));
+  else setTxt(strikeBtn,t('btnSmelt',{c:fmt(smeltStartCost())}));
+
+  const m=meltBand(S.curRecipe);
+  if(S.smelt){
+    setTxt(infoStrip,t('infoSmelt',{h:Math.round(heat),lo:m.lo,hi:m.hi,
+      f:Math.round(S.smelt.fill*100),p:t('purity',{p:Math.round(S.smelt.purity*100)})}));
+  }else if(S.started){
+    setTxt(infoStrip,`${t('purity',{p:Math.round((S.ingotPurity[S.curRecipe]||0.55)*100)})} · ${t('qual',{q:startQuality(S.curRecipe)})} → ${t('stage',{s:S.stage,n:t(STAGES[S.stage-1])})}`);
+  }else{
+    setTxt(infoStrip,t('infoIdle',{c:fmt(smeltStartCost()),n:fmt(ing)}));
+  }
 
   if(S.stats.strikes>6){
-    if(!S.started&&S.ore<r.ore)setHint(t('hintOre'));
-    else setHint('');
-    if(!S.started&&S.ore<r.ore)$('hint').classList.remove('off');else $('hint').classList.add('off');
+    let h='';
+    if(!S.started&&!S.smelt){
+      if(ing>0)h='';
+      else if(S.ore<smeltStartCost())h=t('hintOre');
+      else h=t('hintStart');
+    }
+    setHint(h);
+    $('hint').classList.toggle('off',!h);
   }else{setHint(t('hintStart'));$('hint').classList.remove('off');}
 
   RECIPES.forEach(rc=>{const f=invRefs[rc.id];if(!f)return;
@@ -2301,6 +2826,8 @@ function ui(){
     setTxt(f.qline,`${t('qBad')}${inv.b} · ${inv.n} · ${t('qRare')}${inv.r} · ${t('qEpic')}${inv.e}`);
     f.b1.classList.toggle('cant',n<1);f.ba.classList.toggle('cant',n<1);
     f.be.classList.toggle('cant',(inv.n+inv.r+inv.e)<1);
+    if(f.mk){const a=marketArrow(rc.id);setTxt(f.mk,a);f.mk.className='mk'+(a==='▲'?' up':a==='▼'?' down':'');}
+    if(f.br){setTxt(f.br,t('resmelt',{n:inv.b}));f.br.classList.toggle('cant',inv.b<1);}
     setTxt(f.enote,t('equipped',{n:S.equipped[rc.id],p:Math.round(S.equipped[rc.id]*EQUIP_BONUS[rc.id]*100)}));});
 
   UPG.forEach(u=>{const f=shopUpgRefs[u.key];if(!f)return;
@@ -2375,6 +2902,19 @@ function ui(){
   if(EVT&&evtBar){evtBar.style.width=(EVT.t/EVT.max*100)+'%';
     if(evtBtn)evtBtn.classList.toggle('cant',invCount(EVT.tier)<1);}
 
+  /* Заказы гильдии: дедлайны, доступность, кулдауны */
+  for(let i=0;i<orderRefs.length;i++){
+    const f=orderRefs[i],o=S.orders?S.orders[i]:null;if(!f)continue;
+    if(o&&f.bar){
+      const rem=Math.max(0,o.end-Date.now());
+      f.bar.style.width=(rem/(o.dur*1000)*100)+'%';
+      f.el.classList.toggle('urgent',rem<o.dur*250);
+      f.go.classList.toggle('cant',!pickOrderItem(o.rid,o.minQ));
+    }else if(f.cd){
+      setTxt(f.cd,t('orderCd',{v:Math.max(0,Math.ceil(S.orderCd[i]||0))}));
+    }
+  }
+
   setTxt($('stGold'),fmt(Math.floor(S.stats.gold)));
   setTxt($('stForged'),fmt(S.stats.forged));
   setTxt($('stSold'),fmt(S.stats.sold));
@@ -2385,7 +2925,10 @@ function ui(){
   setTxt($('stCombo'),'×'+fmt(S.bestCombo));
   setTxt($('stBestRun'),fmt(Math.floor(S.bestRun||0)));
   setTxt($('stTime'),durFmt(S.stats.time||0));
-  if(S.stats.strikes>4&&S.ore>=R[S.curRecipe].ore)$('hint').classList.add('off');
+  setTxt($('stRep'),String(S.repLvl));
+  setTxt($('stOrders'),fmt(S.stats.orders||0));
+  setTxt($('stIngots'),fmt(S.stats.ingots||0));
+  setTxt($('stResmelt'),fmt(S.stats.resmelt||0));
 }
 
 /* п.8.2.3: все языкозависимые тексты, включая лоадер и title, берутся из словаря */
@@ -2398,11 +2941,11 @@ function applyStaticText(){
   setTxt($('tabForgeL'),t('tabForge'));
   setTxt($('tabShopL'),t('tabShop'));
   setTxt($('tabProfileL'),t('tabProfile'));
-  setTxt($('strikeBtn'),t('strike'));
   setTxt($('secRecipes'),t('secRecipes'));
   setTxt($('secDaily'),t('secDaily'));
   setTxt($('secRaid'),t('secRaid'));
   setTxt($('secStorage'),t('secStorage'));
+  setTxt($('secOrders'),t('secOrders'));
   if(!playerName)setTxt($('hello'),t('hello'));
   setTxt($('profileSub'),t('profileSub'));
   setTxt($('howTitle'),t('howTitle'));
@@ -2413,6 +2956,8 @@ function applyStaticText(){
   setTxt($('stMinedL'),t('stMined'));setTxt($('stEpicL'),t('stEpic'));
   setTxt($('stStarsL'),t('stStars'));setTxt($('stComboL'),t('stCombo'));
   setTxt($('stBestRunL'),t('stBestRun'));setTxt($('stTimeL'),t('stTime'));
+  setTxt($('stRepL'),t('stRep'));setTxt($('stOrdersL'),t('stOrders'));
+  setTxt($('stIngotsL'),t('stIngots'));setTxt($('stResmeltL'),t('stResmelt'));
   setTxt($('docsSave'),t('save'));setTxt($('resetBtn'),t('reset'));
   setHtml($('profileNote'),t('profileNote'));
   $('icoGold').innerHTML=emojiToSvg('🪙');
@@ -2426,16 +2971,16 @@ function computeAway(){
   if(sec<90)return null;
   let oreGain=Math.floor(baseOreRate()*sec);
   let forged=0;const rid=S.curRecipe;
-  if(autoRate()>0){
-    const r=R[rid];const strikes=autoRate()*sec;
-    const byWork=Math.floor(strikes/r.work);
+  /* Оффлайн: heroes добывают руду; подмастерье плавит и куёт
+     обычные мечи (шедевры — только ручная работа) */
+  if(S.apprentice>0){
+    const r=R[rid];
+    const byRate=Math.floor(apprenticeRate()*sec);
     const byOre=Math.floor((S.ore+oreGain)/r.ore);
-    forged=Math.min(byWork,byOre);
+    forged=Math.min(byRate,byOre,5000);
     if(forged>0){
-      for(let k=0;k<forged;k++){const q=rollQuality();S.inv[rid][q]++;
-        if(q==='r'||q==='e')S.stats.rareForged++;
-        if(q==='e'){S.stats.epicForged++;if(!S.museum[rid])S.museum[rid]=true;}}
-      S.stats.forged+=forged;oreGain-=forged*r.ore;
+      for(let k=0;k<forged;k++)forgeComplete(rid,'n');
+      oreGain-=forged*r.ore;
     }
   }
   S.ore+=oreGain;
@@ -2471,12 +3016,18 @@ function canvasTap(e){
   if(tapVein(x,y))return;
   if(tapFire(x,y))return;
   if(tapCat(x,y))return;
-  doStrike();
+  /* зона наковальни — удар; остальной канвас — контекстное действие */
+  const ax=W*0.64;
+  if(Math.abs(x-ax)<85&&y>floorY-130){doStrike();return;}
+  if(S.started)doStrike();
+  else if(S.smelt)pump();
 }
 cv.addEventListener('pointerdown',canvasTap);
 cv.addEventListener('contextmenu',e=>e.preventDefault());
-strikeBtn.addEventListener('pointerdown',e=>{e.preventDefault();audio();doStrike();});
-window.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat){e.preventDefault();doStrike();}});
+strikeBtn.addEventListener('pointerdown',e=>{e.preventDefault();audio();mainAction();});
+$('smeltBtn').addEventListener('click',()=>{audio();if(!S.smelt)startSmelt();});
+$('forgeBtn').addEventListener('click',()=>{audio();startForge();});
+window.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat){e.preventDefault();audio();mainAction();}});
 
 $('docsSave').addEventListener('click',()=>{save();toast(t('toastProgress'));});
 $('resetBtn').addEventListener('click',()=>{
@@ -2519,7 +3070,7 @@ resize();
 if(window.ResizeObserver){new ResizeObserver(resize).observe(cv);}
 window.addEventListener('resize',resize);
 window.addEventListener('orientationchange',()=>setTimeout(resize,200));
-ensureDaily();expCheck();
+ensureDaily();expCheck();ensureOrders();renderOrders();
 applyStaticText();
 buildChips();buildInv();buildDaily();buildExp();buildShop();initEmbers();updateMuteIcon();
 nextMeteorAt=performance.now()+METEOR_FIRST;
@@ -2546,7 +3097,7 @@ if(away){
     <p>${t('awayGone',{t:durFmt(away.sec)})}</p>
     <div class="away">${t('awayOre',{o:fmt(away.oreGain)})}${away.forged?t('awaySwords',{i:R[away.rid].icon,f:fmt(away.forged)}):''}
     ${away.gift?t('awayGift'):''}
-    ${autoRate()>0?'':t('awayTip')}</div>
+    ${S.apprentice>0?'':t('awayTip')}</div>
     <div class="modal-btns">
       <button class="btn gold big" id="collectBtn" data-close>${t('awayCollect')}</button>
       <button class="btn big" id="doubleBtn">${t('awayDouble')}</button>
